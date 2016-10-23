@@ -24,6 +24,10 @@ android {
     }
 }
 
+kapt {
+    generateStubs = true
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -34,7 +38,21 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "com.squareup.retrofit2:retrofit:2.0.0"
     compile "com.squareup.retrofit2:converter-moshi:2.0.0"
+
+    // RxJava & RxAndroid
+    compile 'io.reactivex:rxjava:1.2.1'
+    compile 'io.reactivex:rxandroid:1.2.1'
+
+    // stetho
+    compile 'com.facebook.stetho:stetho-okhttp3:1.4.1'
+    compile 'com.facebook.stetho:stetho:1.4.1'
+
+    // Dagger 2
+    compile 'com.google.dagger:dagger:2.7'
+    kapt 'com.google.dagger:dagger-compiler:2.7'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
 }
+
 repositories {
     mavenCentral()
 }
