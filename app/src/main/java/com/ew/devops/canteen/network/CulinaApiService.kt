@@ -4,7 +4,9 @@ import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
+import rx.Observable
 
 class CulinaApiService : CulinaApi {
 
@@ -15,17 +17,18 @@ class CulinaApiService : CulinaApi {
         val retrofit = Retrofit.Builder()
                 .client(okhttp)
                 .baseUrl("https://api.qnips.com/")
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build()
 
         culinaApi = retrofit.create(CulinaApi::class.java)
     }
 
-    override fun getMenu(): Call<String> {
+    override fun getMenu(): Observable<String> {
         return culinaApi.getMenu()
     }
 
-    override fun getNewIdentitiy(deviceType: String): Call<ApiResponse> {
+    override fun getNewIdentitiy(deviceType: String): Observable<ApiResponse> {
         return culinaApi.getNewIdentitiy(deviceType)
     }
 

@@ -6,8 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.ew.devops.canteen.presenter.MainActivityPresenter
 import kotlinx.android.synthetic.main.activity_main.*
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,18 +15,7 @@ class MainActivity : AppCompatActivity() {
 
         val presenter = MainActivityPresenter()
 
-        if (getPreferences(Context.MODE_PRIVATE).getString("api_token", "").isEmpty()) {
-            presenter.requestNewIdentity()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe({ response ->
-                        run {
-                            text.text = response.Content.ApiKey
-                            getPreferences(Context.MODE_PRIVATE).edit().putString("api_token", response.Content.ApiKey).apply()
-                        }
-                    }, {
-                        e -> Log.e("TAG", "", e)
-                    })
-        }
+        presenter.getApiToken(getPreferences(Context.MODE_PRIVATE)).subscribe({ token -> text.text = token },
+                { error -> Log.e("TAG", "", error) })
     }
 }
