@@ -2,7 +2,6 @@ package com.ew.devops.canteen.network
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.OkHttpClient
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -24,8 +23,8 @@ class CulinaApiService : CulinaApi {
         culinaApi = retrofit.create(CulinaApi::class.java)
     }
 
-    override fun getMenu(): Observable<String> {
-        return culinaApi.getMenu()
+    override fun getMenu(authorization: String): Observable<String> {
+        return culinaApi.getMenu(authorization)
     }
 
     override fun getNewIdentitiy(deviceType: String): Observable<ApiResponse> {

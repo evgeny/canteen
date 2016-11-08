@@ -15,7 +15,14 @@ class MainActivity : AppCompatActivity() {
 
         val presenter = MainActivityPresenter()
 
-        presenter.getApiToken(getPreferences(Context.MODE_PRIVATE)).subscribe({ token -> text.text = token },
-                { error -> Log.e("TAG", "", error) })
+//        presenter.getApiToken(getPreferences(Context.MODE_PRIVATE)).subscribe({ token -> text.text = token },
+//                { error -> Log.e("TAG", "", error) })
+
+        presenter.getMenu(getPreferences(Context.MODE_PRIVATE)).subscribe({ response ->
+            run {
+                Log.d("TAG", "menu response=" + response)
+                text.text = response
+            }
+        }, { error -> Log.e("TAG", "", error) })
     }
 }

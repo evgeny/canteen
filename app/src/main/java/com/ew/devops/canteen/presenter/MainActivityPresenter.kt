@@ -1,8 +1,11 @@
 package com.ew.devops.canteen.presenter
 
 import android.content.SharedPreferences
+import com.ew.devops.canteen.network.ApiResponse
 import com.ew.devops.canteen.network.CulinaApiService
 import rx.Observable
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 
 class MainActivityPresenter(private var culinaApiService: CulinaApiService = CulinaApiService()) {
 
@@ -16,5 +19,11 @@ class MainActivityPresenter(private var culinaApiService: CulinaApiService = Cul
         } else {
             return Observable.just(token)
         }
+    }
+
+    fun getMenu(prefs: SharedPreferences): Observable<String> {
+        return getApiToken(prefs).flatMap({token -> culinaApiService.getMenu(token)})
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribeOn(Schedulers.io())
     }
 }
