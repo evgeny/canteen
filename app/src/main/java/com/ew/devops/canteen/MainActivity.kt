@@ -19,10 +19,8 @@ class MainActivity : AppCompatActivity() {
 //                { error -> Log.e("TAG", "", error) })
 
         presenter.getMenu(getPreferences(Context.MODE_PRIVATE)).subscribe({ response ->
-            run {
                 Log.d("TAG", "menu response=" + response)
-                text.text = response
-            }
+                text.text = response.Content.MenuCardId.toString()
         }, { error -> Log.e("TAG", "", error) })
     }
 }

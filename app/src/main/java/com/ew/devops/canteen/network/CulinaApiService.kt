@@ -23,11 +23,11 @@ class CulinaApiService : CulinaApi {
         culinaApi = retrofit.create(CulinaApi::class.java)
     }
 
-    override fun getMenu(authorization: String): Observable<String> {
+    override fun getMenu(authorization: String): Observable<ApiResponse<ContentMenu>> {
         return culinaApi.getMenu(authorization)
     }
 
-    override fun getNewIdentitiy(deviceType: String): Observable<ApiResponse> {
+    override fun getNewIdentitiy(deviceType: String): Observable<ApiResponse<ContentNewIdentity>> {
         return culinaApi.getNewIdentitiy(deviceType)
     }
 
