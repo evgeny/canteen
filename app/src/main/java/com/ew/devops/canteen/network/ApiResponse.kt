@@ -1,7 +1,7 @@
 package com.ew.devops.canteen.network
 
 /**
- * high-level response for all api requests
+ * wrapper response for all api requests
  */
 data class ApiResponse<T>(
         var Error: String,
@@ -19,10 +19,12 @@ data class ContentNewIdentity(
         val ProfileToken: String
 )
 
+//---- MENU ------
 data class ContentMenu(
-        val MenuCardId: Int
+        val MenuCardId: Int,
+        val Categories: List<Category>
 )
 
-//data class Content2{
-//    var Categories: Array<String>
-//}
+data class Category(val Id: Int, val Name: String, val Products: List<Product>)
+
+data class Product(val Id: Int, val Name: String)

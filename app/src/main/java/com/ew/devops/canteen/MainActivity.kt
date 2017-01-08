@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         presenter.getMenu(getPreferences(Context.MODE_PRIVATE)).subscribe({ response ->
                 Log.d("TAG", "menu response=" + response)
-                text.text = response.Content.MenuCardId.toString()
+                text.text = response.Content.Categories[0].Products[0].Name
         }, { error -> Log.e("TAG", "", error) })
     }
 }
