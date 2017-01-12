@@ -34,6 +34,10 @@ interface CulinaApi {
     @GET("cons/api/Stores/20924/Menu")
     fun getMenu(@Header("Authorization") authorization: String): Observable<ApiResponse<ContentMenu>>
 
+    @Headers("Accept: application/json", "App-Feature-Set: 1793")
+    @GET("cons/api/Stores/20924/Menu")
+    fun getMenu(@Header("Authorization") authorization: String, @Query("date") date: String): Observable<ApiResponse<ContentMenu>>
+
     /**
      * https://api.qnips.com/cons/api/NewIdentity?deviceType=Android+6.0.1
      *
