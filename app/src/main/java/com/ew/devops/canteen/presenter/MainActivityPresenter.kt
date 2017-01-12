@@ -27,4 +27,10 @@ class MainActivityPresenter(private var culinaApiService: CulinaApiService = Cul
         .observeOn(AndroidSchedulers.mainThread())
         .subscribeOn(Schedulers.io())
     }
+
+    fun getMenu(prefs: SharedPreferences, date: String): Observable<ApiResponse<ContentMenu>> {
+        return getApiToken(prefs).flatMap({token -> culinaApiService.getMenu(token)})
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+    }
 }

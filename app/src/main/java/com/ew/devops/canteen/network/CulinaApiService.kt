@@ -31,4 +31,7 @@ class CulinaApiService : CulinaApi {
         return culinaApi.getNewIdentitiy(deviceType)
     }
 
+    override fun getMenu(authorization: String, date: String): Observable<ApiResponse<ContentMenu>> {
+        return culinaApi.getMenu(authorization, date);
+    }
 }
