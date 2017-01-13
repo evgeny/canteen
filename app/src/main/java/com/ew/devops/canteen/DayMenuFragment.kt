@@ -40,7 +40,8 @@ class DayMenuFragment : Fragment() {
         presenter.getMenu(activity.getPreferences(Context.MODE_PRIVATE), date = "2017-01-13").subscribe({ response ->
             Log.d("TAG", "menu response=" + response)
             day_menu_category.text = response.Content.Categories[0].Name
-            day_menu_product.text = response.Content.Categories[0].Products[0].Name
+            day_menu_product.text = response.Content.Categories[0].Products[1].Name
+            day_menu_price.text = response.Content.Categories[0].Products[0].Name
         }, { error -> Log.e("TAG", "", error) })
 
         return view
