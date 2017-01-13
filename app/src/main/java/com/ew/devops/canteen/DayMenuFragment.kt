@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ew.devops.canteen.presenter.MainActivityPresenter
+import kotlinx.android.synthetic.main.card_day_menu_item.*
 import kotlinx.android.synthetic.main.fragment_day_menu.*
 
 

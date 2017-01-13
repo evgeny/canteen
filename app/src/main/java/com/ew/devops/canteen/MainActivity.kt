@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val presenter = MainActivityPresenter()
+//        val presenter = MainActivityPresenter()
 
 //        presenter.getMenu(getPreferences(Context.MODE_PRIVATE)).subscribe({ response ->
 //            Log.d("TAG", "menu response=" + response)
