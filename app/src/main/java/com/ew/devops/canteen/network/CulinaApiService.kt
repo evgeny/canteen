@@ -32,6 +32,6 @@ class CulinaApiService : CulinaApi {
     }
 
     override fun getMenu(authorization: String, date: String): Observable<ApiResponse<ContentMenu>> {
-        return culinaApi.getMenu(authorization, date);
+        return culinaApi.getMenu(authorization, date)
     }
 }
