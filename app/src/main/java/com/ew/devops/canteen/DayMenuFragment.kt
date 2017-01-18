@@ -8,6 +8,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import com.ew.devops.canteen.network.ContentMenu
 import com.ew.devops.canteen.presenter.MainActivityPresenter
@@ -46,6 +48,7 @@ class DayMenuFragment : Fragment() {
     fun parseResponse(content: ContentMenu, container: ViewGroup?, inflater: LayoutInflater?) {
         content.Categories.forEach {
             val menuItem = inflater?.inflate(R.layout.card_day_menu_item, container, false) as CardView
+
             val categoryView = menuItem.findViewById(R.id.day_menu_category) as TextView
             categoryView.text = it.Name
 
@@ -56,6 +59,15 @@ class DayMenuFragment : Fragment() {
             val priceView = menuItem.findViewById(R.id.day_menu_price) as TextView
             priceView.text = it.Products[0].Name
 //            day_menu_price.text = it.Products[0].Name
+
+            val imageView = menuItem.findViewById(R.id.image) as ImageView
+            when (it.Id) {
+                631 -> imageView.setImageResource(R.drawable.ic_aubergine)
+                632 -> imageView.setImageResource(R.drawable.ic_rice)
+                633 -> imageView.setImageResource(R.drawable.ic_chicken)
+                634 -> imageView.setImageResource(R.drawable.ic_covering)
+                635 -> imageView.setImageResource(R.drawable.ic_fries)
+            }
             container?.addView(menuItem)
         }
     }
