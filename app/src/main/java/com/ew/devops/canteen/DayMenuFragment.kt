@@ -1,8 +1,12 @@
 package com.ew.devops.canteen
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
+import android.support.v4.content.res.ResourcesCompat
+import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.widget.CardView
 import android.util.Log
 import android.view.LayoutInflater
@@ -52,22 +56,43 @@ class DayMenuFragment : Fragment() {
             val categoryView = menuItem.findViewById(R.id.day_menu_category) as TextView
             categoryView.text = it.Name
 
+            // set price and description
             val productView = menuItem.findViewById(R.id.day_menu_product) as TextView
-            productView.text = it.Products[1].Name
-//            day_menu_product.text = it.Products[1].Name
-
             val priceView = menuItem.findViewById(R.id.day_menu_price) as TextView
-            priceView.text = it.Products[0].Name
-//            day_menu_price.text = it.Products[0].Name
-
-            val imageView = menuItem.findViewById(R.id.image) as ImageView
-            when (it.Id) {
-                631 -> imageView.setImageResource(R.drawable.ic_aubergine)
-                632 -> imageView.setImageResource(R.drawable.ic_rice)
-                633 -> imageView.setImageResource(R.drawable.ic_chicken)
-                634 -> imageView.setImageResource(R.drawable.ic_covering)
-                635 -> imageView.setImageResource(R.drawable.ic_fries)
+            if (it.Products[0].Name.contains("€")) {
+                priceView.text = it.Products[0].Name
+                productView.text = it.Products[1].Name
+            } else {
+                priceView.text = it.Products[1].Name
+                productView.text = it.Products[0].Name
             }
+
+            // set header icon
+            val imageView = menuItem.findViewById(R.id.image) as ImageView
+            val header = menuItem.findViewById(R.id.background)
+            when (it.Id) {
+                631 -> {
+                    imageView.setImageResource(R.drawable.ic_aubergine)
+                }
+                632 -> {
+                    imageView.setImageResource(R.drawable.ic_rice)
+                    header.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorTraditional))
+                }
+                633 -> {
+                    imageView.setImageResource(R.drawable.ic_chicken)
+                    header.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorCulinary))
+                }
+                634 -> {
+                    imageView.setImageResource(R.drawable.ic_covering)
+                    header.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorSoup))
+                }
+                635 -> {
+                    imageView.setImageResource(R.drawable.ic_fries)
+                    header.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorDaily))
+                }
+            }
+
+            // add card to fragment layout
             container?.addView(menuItem)
         }
     }

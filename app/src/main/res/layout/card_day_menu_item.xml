@@ -36,8 +36,8 @@
             android:id="@+id/day_menu_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#4CAF50"
             android:padding="16dp"
+            android:fontFamily="casual"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:textColor="@android:color/white"
             app:layout_constraintLeft_toRightOf="@+id/image"
@@ -50,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:fontFamily="casual"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/day_menu_category"
             tools:text="Ratatue" />
@@ -59,16 +60,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:fontFamily="cursive"
+            android:textSize="36sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/day_menu_product"
             tools:text="12.190" />
 
-        <RatingBar
-            android:layout_margin="16dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/day_menu_price" />
+        <!--<RatingBar-->
+            <!--android:layout_margin="16dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/day_menu_price" />-->
     </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>
