@@ -1,17 +1,21 @@
 package com.ew.devops.canteen
 
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v7.app.AppCompatActivity
-import com.ew.devops.canteen.presenter.MainActivityPresenter
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
 
-    internal var adapter: DayMenuAdapter? = null
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // set action bar
+        setSupportActionBar(toolbar)
+
+        tabs.tabMode = TabLayout.MODE_SCROLLABLE
 
 //        val presenter = MainActivityPresenter()
 
@@ -22,5 +26,8 @@ class MainActivity : AppCompatActivity() {
 
         val adapter = DayMenuAdapter(supportFragmentManager)
         pager.adapter = adapter
+
+        val tabLayout = findViewById(R.id.tabs) as TabLayout
+        tabLayout.setupWithViewPager(pager)
     }
 }

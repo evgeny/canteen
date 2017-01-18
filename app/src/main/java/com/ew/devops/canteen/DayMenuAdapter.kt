@@ -9,7 +9,7 @@ import java.util.*
 
 class DayMenuAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager) {
 
-    val dateFormatter: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
     override fun getItem(position: Int): Fragment {
         val menuDate = Calendar.getInstance()
@@ -19,6 +19,12 @@ class DayMenuAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapt
     }
 
     override fun getCount(): Int {
-        return 3
+        return 10 // limit two weeks = 10 work days
+    }
+
+    override fun getPageTitle(position: Int): CharSequence {
+        val menuDate = Calendar.getInstance()
+        menuDate.add(Calendar.DAY_OF_MONTH, position)
+        return dateFormatter.format(menuDate.time)
     }
 }

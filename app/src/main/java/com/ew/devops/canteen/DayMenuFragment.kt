@@ -9,12 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.ew.devops.canteen.network.ApiResponse
 import com.ew.devops.canteen.network.ContentMenu
 import com.ew.devops.canteen.presenter.MainActivityPresenter
-import kotlinx.android.synthetic.main.card_day_menu_item.*
 import kotlinx.android.synthetic.main.fragment_day_menu.*
-import kotlinx.android.synthetic.main.card_day_menu_item.*
 
 
 class DayMenuFragment : Fragment() {
@@ -23,7 +20,7 @@ class DayMenuFragment : Fragment() {
             val args: Bundle = Bundle(1)
             args.putString("date", date)
 
-            val fragment: DayMenuFragment = DayMenuFragment()
+            val fragment = DayMenuFragment()
             fragment.arguments = args
 
             return fragment
@@ -48,16 +45,15 @@ class DayMenuFragment : Fragment() {
 
     fun parseResponse(content: ContentMenu, container: ViewGroup?, inflater: LayoutInflater?) {
         content.Categories.forEach {
-            val menuItem: CardView = inflater?.inflate(R.layout.card_day_menu_item, container, false) as CardView
-            val categoryView: TextView = menuItem.findViewById(R.id.day_menu_category) as TextView
-            categoryView.text = it.Name;
-//            day_menu_category.text = it.Name
+            val menuItem = inflater?.inflate(R.layout.card_day_menu_item, container, false) as CardView
+            val categoryView = menuItem.findViewById(R.id.day_menu_category) as TextView
+            categoryView.text = it.Name
 
-            val productView: TextView = menuItem.findViewById(R.id.day_menu_product) as TextView
+            val productView = menuItem.findViewById(R.id.day_menu_product) as TextView
             productView.text = it.Products[1].Name
 //            day_menu_product.text = it.Products[1].Name
 
-            val priceView: TextView = menuItem.findViewById(R.id.day_menu_price) as TextView
+            val priceView = menuItem.findViewById(R.id.day_menu_price) as TextView
             priceView.text = it.Products[0].Name
 //            day_menu_price.text = it.Products[0].Name
             container?.addView(menuItem)
