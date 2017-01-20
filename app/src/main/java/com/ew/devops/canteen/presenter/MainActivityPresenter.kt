@@ -7,8 +7,11 @@ import com.ew.devops.canteen.network.CulinaApiService
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class MainActivityPresenter(private var culinaApiService: CulinaApiService = CulinaApiService()) {
+@Singleton
+class MainActivityPresenter @Inject constructor(private var culinaApiService: CulinaApiService) {
 
     fun getApiToken(prefs: SharedPreferences): Observable<String> {
         val token = prefs.getString("api_token", "")

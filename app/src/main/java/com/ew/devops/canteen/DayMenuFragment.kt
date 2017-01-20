@@ -1,26 +1,26 @@
 package com.ew.devops.canteen
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.support.v4.content.res.ResourcesCompat
-import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.widget.CardView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import com.ew.devops.canteen.network.ContentMenu
 import com.ew.devops.canteen.presenter.MainActivityPresenter
 import kotlinx.android.synthetic.main.fragment_day_menu.*
+import javax.inject.Inject
 
 
 class DayMenuFragment : Fragment() {
+
+    @Inject lateinit var presenter: MainActivityPresenter
+
     companion object Factory {
         fun newInstance(date: String): DayMenuFragment {
             val args: Bundle = Bundle(1)
@@ -33,11 +33,15 @@ class DayMenuFragment : Fragment() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        CanteenApplication.appComponent.inject(this)
+    }
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view = inflater?.inflate(R.layout.fragment_day_menu, container, false)
-
-        val presenter = MainActivityPresenter()
 
         val date: String = arguments.getString("date")
 
