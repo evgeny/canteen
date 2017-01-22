@@ -1,6 +1,7 @@
 package com.ew.devops.canteen
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -15,6 +16,7 @@ import com.ew.devops.canteen.network.ContentMenu
 import com.ew.devops.canteen.presenter.MainActivityPresenter
 import kotlinx.android.synthetic.main.fragment_day_menu.*
 import javax.inject.Inject
+import android.support.v4.app.ActivityOptionsCompat
 
 
 class DayMenuFragment : Fragment() {
@@ -98,6 +100,13 @@ class DayMenuFragment : Fragment() {
 
             // add card to fragment layout
             container?.addView(menuItem)
+
+            menuItem.setOnClickListener { view ->
+                presenter.category = it
+                val dishActivity = Intent(activity, CategoryActivity::class.java)
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imageView, "test")
+                startActivity(dishActivity, options.toBundle())
+            }
         }
     }
 }
