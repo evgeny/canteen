@@ -10,4 +10,4 @@ android:
     #- sys-img-armeabi-v7a-android-17
     - sys-img-x86_64-google_apis-25
 
-  script: ./gradlew build
+script: ./gradlew build
