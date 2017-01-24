@@ -13,4 +13,9 @@ android:
     #- sys-img-armeabi-v7a-android-17
     - sys-img-x86_64-google_apis-25
 
+  licenses:
+    - 'android-sdk-preview-license-.+'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
+
 script: ./gradlew build
