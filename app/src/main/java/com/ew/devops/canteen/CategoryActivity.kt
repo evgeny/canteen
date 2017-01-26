@@ -2,12 +2,11 @@ package com.ew.devops.canteen
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
 import com.ew.devops.canteen.presenter.MainActivityPresenter
 import kotlinx.android.synthetic.main.activity_category.*
 import javax.inject.Inject
 
-class CategoryActivity : AppCompatActivity() {
+class CategoryActivity : BaseActivity() {
 
     @Inject lateinit var presenter: MainActivityPresenter
 
