@@ -3,8 +3,11 @@ package com.ew.devops.canteen
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import com.ew.devops.canteen.presenter.MainActivityPresenter
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_category.*
+import kotlinx.android.synthetic.main.content_category.*
 import javax.inject.Inject
+
 
 class CategoryActivity : BaseActivity() {
 
@@ -20,6 +23,14 @@ class CategoryActivity : BaseActivity() {
         setSupportActionBar(toolbar)
 
         title = presenter.category!!.Name
+
+        publish.setOnClickListener { view ->
+            // Write a message to the database
+            val database = FirebaseDatabase.getInstance()
+            val myRef = database.getReference("review")
+
+            myRef.setValue("it was fantastic")
+        }
 
 //        val fab = findViewById(R.id.fab) as FloatingActionButton
         fab.setOnClickListener { view ->
