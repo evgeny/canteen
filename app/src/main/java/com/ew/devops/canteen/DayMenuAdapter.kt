@@ -35,4 +35,16 @@ class DayMenuAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapt
 
         return dateFormatterTab.format(menuDate.time)
     }
+
+    private fun getMenuDate(position: Int): Calendar {
+        val menuDate = Calendar.getInstance()
+        menuDate.add(Calendar.DAY_OF_MONTH, position + dayOver)
+
+        if (menuDate.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+            dayOver += 2
+            menuDate.add(Calendar.DAY_OF_MONTH, 2)
+        }
+
+        return menuDate
+    }
 }

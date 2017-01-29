@@ -3,6 +3,7 @@ package com.ew.devops.canteen
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import com.ew.devops.canteen.presenter.MainActivityPresenter
+import com.ew.devops.canteen.utils.UiUtils
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_category.*
 import kotlinx.android.synthetic.main.content_category.*
@@ -21,6 +22,9 @@ class CategoryActivity : BaseActivity() {
         setContentView(R.layout.activity_category)
 //        val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
+
+        toolbar.setBackgroundColor(UiUtils.getCategoryColor(presenter.category!!.Id))
+        image.setImageResource(UiUtils.getCategoryDrawable(presenter.category!!.Id))
 
         title = presenter.category!!.Name
 
