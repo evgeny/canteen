@@ -23,7 +23,8 @@ class CategoryActivity : BaseActivity() {
 //        val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
-        toolbar.setBackgroundColor(UiUtils.getCategoryColor(presenter.category!!.Id))
+        toolbar_layout.setBackgroundColor(UiUtils.getCategoryColor(presenter.category!!.Id))
+//        toolbar.setBackgroundColor(UiUtils.getCategoryColor(presenter.category!!.Id))
         image.setImageResource(UiUtils.getCategoryDrawable(presenter.category!!.Id))
 
         title = presenter.category!!.Name
