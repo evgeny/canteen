@@ -17,6 +17,7 @@ import com.ew.devops.canteen.presenter.MainActivityPresenter
 import kotlinx.android.synthetic.main.fragment_day_menu.*
 import javax.inject.Inject
 import android.support.v4.app.ActivityOptionsCompat
+import com.ew.devops.canteen.utils.UiUtils
 
 
 class DayMenuFragment : Fragment() {
@@ -76,27 +77,8 @@ class DayMenuFragment : Fragment() {
             // set header icon
             val imageView = menuItem.findViewById(R.id.image) as ImageView
             val header = menuItem.findViewById(R.id.background)
-            when (it.Id) {
-                631 -> {
-                    imageView.setImageResource(R.drawable.ic_aubergine)
-                }
-                632 -> {
-                    imageView.setImageResource(R.drawable.ic_rice)
-                    header.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorTraditional))
-                }
-                633 -> {
-                    imageView.setImageResource(R.drawable.ic_chicken)
-                    header.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorCulinary))
-                }
-                634 -> {
-                    imageView.setImageResource(R.drawable.ic_covering)
-                    header.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorSoup))
-                }
-                635 -> {
-                    imageView.setImageResource(R.drawable.ic_fries)
-                    header.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorDaily))
-                }
-            }
+            imageView.setImageResource(UiUtils.getCategoryDrawable(it.Id))
+            header.setBackgroundColor(ContextCompat.getColor(activity, UiUtils.getCategoryColor(it.Id)))
 
             // add card to fragment layout
             container?.addView(menuItem)

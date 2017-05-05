@@ -2,12 +2,15 @@ package com.ew.devops.canteen
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
 import com.ew.devops.canteen.presenter.MainActivityPresenter
+import com.ew.devops.canteen.utils.UiUtils
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_category.*
+import kotlinx.android.synthetic.main.content_category.*
 import javax.inject.Inject
 
-class CategoryActivity : AppCompatActivity() {
+
+class CategoryActivity : BaseActivity() {
 
     @Inject lateinit var presenter: MainActivityPresenter
 
@@ -20,7 +23,19 @@ class CategoryActivity : AppCompatActivity() {
 //        val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
+        toolbar_layout.setBackgroundColor(UiUtils.getCategoryColor(presenter.category!!.Id))
+//        toolbar.setBackgroundColor(UiUtils.getCategoryColor(presenter.category!!.Id))
+        image.setImageResource(UiUtils.getCategoryDrawable(presenter.category!!.Id))
+
         title = presenter.category!!.Name
+
+        publish.setOnClickListener { view ->
+            // Write a message to the database
+            val database = FirebaseDatabase.getInstance()
+            val myRef = database.getReference("review")
+
+            myRef.setValue("it was fantastic")
+        }
 
 //        val fab = findViewById(R.id.fab) as FloatingActionButton
         fab.setOnClickListener { view ->
