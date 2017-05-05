@@ -66,13 +66,13 @@ class DayMenuFragment : Fragment() {
             // set price and description
             val productView = menuItem.findViewById(R.id.day_menu_product) as TextView
             val priceView = menuItem.findViewById(R.id.day_menu_price) as TextView
-            if (it.Products[0].Name.contains("€")) {
-                priceView.text = it.Products[0].Name
-                productView.text = it.Products[1].Name
-            } else {
-                priceView.text = it.Products[1].Name
+//            if (it.Products[0].Name.contains("€")) {
+//                priceView.text = it.Products[0].Name
                 productView.text = it.Products[0].Name
-            }
+//            } else {
+//                priceView.text = it.Products[1].Name
+//                productView.text = it.Products[0].Name
+//            }
 
             // set header icon
             val imageView = menuItem.findViewById(R.id.image) as ImageView
