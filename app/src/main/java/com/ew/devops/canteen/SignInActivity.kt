@@ -66,6 +66,9 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
     }
     // [END on_stop_remove_listener]
 
+    /**
+     * create a new user account
+     */
     private fun createAccount(email: String, password: String) {
         Log.d(TAG, "createAccount:" + email)
         if (!validateForm()) {

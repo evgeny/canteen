@@ -10,8 +10,8 @@ open class BaseActivity : AppCompatActivity() {
 
     var progressDialog: ProgressDialog? = null
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         if (progressDialog == null) {
             progressDialog = ProgressDialog(this)
