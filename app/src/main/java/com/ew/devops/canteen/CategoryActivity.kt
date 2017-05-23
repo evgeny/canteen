@@ -27,14 +27,17 @@ class CategoryActivity : BaseActivity() {
 //        toolbar.setBackgroundColor(UiUtils.getCategoryColor(presenter.category!!.Id))
         image.setImageResource(UiUtils.getCategoryDrawable(presenter.category!!.Id))
 
+
         title = presenter.category!!.Name
 
         publish.setOnClickListener { view ->
             // Write a message to the database
             val database = FirebaseDatabase.getInstance()
             val myRef = database.getReference("review")
+            val reviewBody = review.text.toString()
+            val reviewId = presenter.category!!.Id
 
-            myRef.setValue("it was fantastic")
+            myRef.child(reviewId.toString()).setValue(reviewBody)
         }
 
 //        val fab = findViewById(R.id.fab) as FloatingActionButton

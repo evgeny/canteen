@@ -13,6 +13,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <EditText
+            android:id="@+id/review"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="review the dish here..."/>
+
         <!--<ImageView-->
             <!--android:id="@+id/image"-->
             <!--android:layout_width="48dp"-->
