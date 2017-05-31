@@ -2,9 +2,8 @@ package com.ew.devops.canteen
 
 import android.app.ProgressDialog
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
-
+import com.google.firebase.auth.FirebaseAuth
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -33,5 +32,9 @@ open class BaseActivity : AppCompatActivity() {
     public override fun onStop() {
         super.onStop()
         hideProgressDialog()
+    }
+
+    fun getUid(): String {
+        return FirebaseAuth.getInstance().currentUser!!.uid
     }
 }
