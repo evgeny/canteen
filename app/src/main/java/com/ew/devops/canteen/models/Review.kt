@@ -5,7 +5,7 @@ import com.google.firebase.database.IgnoreExtraProperties
 
 @IgnoreExtraProperties
 class Review {
-    var uid = ""
+    var dish = ""
     var author = ""
     var text = ""
 
@@ -13,8 +13,8 @@ class Review {
         // Default constructor required for calls to DataSnapshot.getValue(Review.class)
     }
 
-    constructor(uid: String, author: String, text: String) {
-        this.uid = uid
+    constructor(dish: String, author: String, text: String) {
+        this.dish = dish
         this.author = author
         this.text = text
     }
@@ -23,5 +23,5 @@ class Review {
      * Convert class fields to key-values pair to persist it to firebase db
      */
     @Exclude
-    fun toMap() = mapOf("dish" to uid, "author" to author, "text" to text)
+    fun toMap() = mapOf("dish" to dish, "author" to author, "text" to text)
 }
