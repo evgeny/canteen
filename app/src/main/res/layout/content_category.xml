@@ -9,13 +9,28 @@
     tools:showIn="@layout/activity_category">
 
     <LinearLayout
+        android:padding="8dp"
         android:id="@+id/review_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold"
+            android:text="Bewerten"/>
+
+        <RatingBar
+            android:id="@+id/rating"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content" />
+
         <EditText
             android:id="@+id/review"
+            android:lines="2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="review the dish here..."/>
@@ -29,7 +44,8 @@
 
         <Button
             android:id="@+id/publish"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_gravity="end"
             android:layout_height="wrap_content"
             android:text="Publish review" />
 

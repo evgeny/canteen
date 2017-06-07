@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_day_menu.*
 import javax.inject.Inject
 import android.support.v4.app.ActivityOptionsCompat
 import com.ew.devops.canteen.utils.UiUtils
+import com.google.firebase.database.FirebaseDatabase
 
 
 class DayMenuFragment : Fragment() {
@@ -57,6 +58,7 @@ class DayMenuFragment : Fragment() {
     }
 
     fun parseResponse(content: ContentMenu, container: ViewGroup?, inflater: LayoutInflater?) {
+//        val dbRef = FirebaseDatabase.getInstance().reference
         content.Categories.forEach {
             val menuItem = inflater?.inflate(R.layout.card_day_menu_item, container, false) as CardView
 
@@ -80,6 +82,8 @@ class DayMenuFragment : Fragment() {
             imageView.setImageResource(UiUtils.getCategoryDrawable(it.Id))
             header.setBackgroundColor(ContextCompat.getColor(activity, UiUtils.getCategoryColor(it.Id)))
 
+            // set comment count
+            //TODO
             // add card to fragment layout
             container?.addView(menuItem)
 

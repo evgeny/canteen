@@ -67,6 +67,17 @@
             app:layout_constraintTop_toBottomOf="@+id/day_menu_product"
             tools:text="12.190" />
 
+
+        <TextView
+            android:id="@+id/comment_amount_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_chat"
+            android:layout_margin="8dp"
+            android:text="12"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/day_menu_price" />
+
         <!--<RatingBar-->
             <!--android:layout_margin="16dp"-->
             <!--android:layout_width="wrap_content"-->

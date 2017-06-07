@@ -4,28 +4,26 @@ import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
 
 @IgnoreExtraProperties
-class Review {
-    var dish = ""
-    var author = ""
-    var text = ""
+class Dish {
+    var id = ""
+    var title = ""
+    var price = 0.0f
     var rating = 0.0f
-    var timestamp: Long = 0L
 
     constructor() {
         // Default constructor required for calls to DataSnapshot.getValue(Review.class)
     }
 
-    constructor(dish: String, author: String, text: String, rating: Float, timestamp: Long) {
-        this.dish = dish
-        this.author = author
-        this.text = text
+    constructor(id: String, title: String, price: Float, rating: Float) {
+        this.id = id
+        this.title = title
+        this.price = price
         this.rating = rating
-        this.timestamp = timestamp
     }
 
     /**
      * Convert class fields to key-values pair to persist it to firebase db
      */
     @Exclude
-    fun toMap() = mapOf("dish" to dish, "author" to author, "text" to text, "rating" to rating, "timestamp" to timestamp)
+    fun toMap() = mapOf("id" to id, "title" to title, "price" to price, "rating" to rating)
 }
