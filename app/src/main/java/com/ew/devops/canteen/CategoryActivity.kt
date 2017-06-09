@@ -3,6 +3,7 @@ package com.ew.devops.canteen
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.util.Log
+import android.widget.RatingBar
 import android.widget.TextView
 import com.ew.devops.canteen.models.Dish
 import com.ew.devops.canteen.models.Review
@@ -43,11 +44,11 @@ class CategoryActivity : BaseActivity() {
         database?.child("reviews")?.child("$dishId")?.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError?) {
                 Log.w("TAG", "Failed to read value.", error?.toException())
-//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
                 hideProgressDialog()
+                // TODO if review was changed it's appear double in review feed
                 dataSnapshot?.children?.forEach {
                     val review = it.getValue(Review::class.java)
                     Log.d("TAG", "Value is: " + review.text)
@@ -75,17 +76,8 @@ class CategoryActivity : BaseActivity() {
 
     fun writeNewReview(dishId: String, author: String, text: String, rating: Float) {
         database?.let {
-//            val key = it.child("reviews").push().key
             val review = Review(dishId, author, text, rating, Date().time)
-//            val dish = Dish()
-
-//            childUpdates.put("/reviews/" + key, review.toMap())
-//            childUpdates.put("/user-posts/$userId/$key", postValues)
-
             val mapReview = review.toMap()
-
-//            it.updateChildren(mapOf("/reviews/" + key to review.toMap()))
-//            it.updateChildren(mapOf("/dish-reviews/$dishId" to mapReview, "/user-reviews/$author" to mapReview ))
             it.updateChildren(mapOf("/reviews/$dishId/$author" to mapReview))
         }
     }
@@ -98,9 +90,19 @@ class CategoryActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Fill and append a review to review feed
+     * @param review review instance to display in review feed
+     */
     fun appendReview(review: Review) {
-        val reviewView: TextView = TextView(this)
-        reviewView.text = review.text
-        review_layout.addView(reviewView)
+        val reviewLayout = layoutInflater.inflate(R.layout.review_layout, review_layout, false)
+        (reviewLayout.findViewById(R.id.name) as TextView).text = review.author
+
+        // TODO parse date string from timestamp(millis)
+        (reviewLayout.findViewById(R.id.date) as TextView).text = review.timestamp.toString()
+        (reviewLayout.findViewById(R.id.review) as TextView).text = review.text
+        (reviewLayout.findViewById(R.id.rating) as RatingBar).rating = review.rating
+
+        review_layout.addView(reviewLayout)
     }
 }
