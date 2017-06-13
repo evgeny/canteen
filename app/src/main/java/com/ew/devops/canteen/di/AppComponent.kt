@@ -2,6 +2,7 @@ package com.ew.devops.canteen.di
 
 import com.ew.devops.canteen.DayMenuFragment
 import com.ew.devops.canteen.CategoryActivity
+import com.ew.devops.canteen.SignInActivity
 import dagger.Component
 import javax.inject.Singleton
 
@@ -10,4 +11,5 @@ import javax.inject.Singleton
 interface AppComponent {
     fun inject(dayMenuFragment: DayMenuFragment)
     fun inject(categoryActivity: CategoryActivity)
+    fun inject(signInActivity: SignInActivity)
 }

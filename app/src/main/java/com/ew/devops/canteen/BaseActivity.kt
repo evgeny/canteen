@@ -5,12 +5,15 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 
-open class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity() {
 
     var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // inject dagger components
+        inject()
 
         if (progressDialog == null) {
             progressDialog = ProgressDialog(this)
@@ -37,4 +40,9 @@ open class BaseActivity : AppCompatActivity() {
     fun getUid(): String {
         return FirebaseAuth.getInstance().currentUser!!.uid
     }
+
+    /**
+     * inject needed components or leave the method body empty
+     */
+    abstract fun inject()
 }

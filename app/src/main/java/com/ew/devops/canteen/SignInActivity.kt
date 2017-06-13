@@ -8,16 +8,15 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_sign_in.*
+import javax.inject.Inject
 
 
 class SignInActivity : BaseActivity(), View.OnClickListener {
 
-    // [START declare_auth]
-    private var mAuth: FirebaseAuth? = null
-    // [END declare_auth]
+    @Inject lateinit var mAuth: FirebaseAuth
 
     // [START declare_auth_listener]
-    private var mAuthListener: FirebaseAuth.AuthStateListener? = null
+    private lateinit var mAuthListener: FirebaseAuth.AuthStateListener
     // [END declare_auth_listener]
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,16 +52,15 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
     // [START on_start_add_listener]
     override fun onStart() {
         super.onStart()
-        mAuth!!.addAuthStateListener(mAuthListener!!)
+        mAuth.addAuthStateListener(mAuthListener)
     }
     // [END on_start_add_listener]
 
     // [START on_stop_remove_listener]
     override fun onStop() {
         super.onStop()
-        if (mAuthListener != null) {
-            mAuth!!.removeAuthStateListener(mAuthListener!!)
-        }
+
+        mAuth.removeAuthStateListener(mAuthListener)
     }
     // [END on_stop_remove_listener]
 
@@ -78,7 +76,7 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
         showProgressDialog()
 
         // [START create_user_with_email]
-        mAuth!!.createUserWithEmailAndPassword(email, password)
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, { task ->
                     Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful)
 
@@ -106,7 +104,7 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
         showProgressDialog()
 
         // [START sign_in_with_email]
-        mAuth!!.signInWithEmailAndPassword(email, password)
+        mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, { task ->
                     Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful)
 
@@ -130,7 +128,7 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun signOut() {
-        mAuth!!.signOut()
+        mAuth.signOut()
         updateUI(null)
     }
 
@@ -182,6 +180,10 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
         } else if (i == R.id.sign_out_button) {
             signOut()
         }
+    }
+
+    override fun inject() {
+        CanteenApplication.appComponent.inject(this)
     }
 
     companion object {

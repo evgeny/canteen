@@ -12,6 +12,9 @@ import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.app_bar_menu.*
 
 class MenuActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+    override fun inject() {
+        // nothing here
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,11 +52,13 @@ class MenuActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         // Handle navigation view item clicks here.
         val id = item.itemId
 
-        if (id == R.id.nav_camera) {
-            val intent = Intent(this, SignInActivity::class.java)
-            startActivity(intent)
-            // Handle the camera action
+        when (id) {
+            R.id.nav_camera -> {
+                val intent = Intent(this, SignInActivity::class.java)
+                startActivity(intent)
+            }
         }
+
         val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
         drawer.closeDrawer(GravityCompat.START)
         return true

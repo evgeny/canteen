@@ -20,12 +20,10 @@ class CategoryActivity : BaseActivity() {
 
     @Inject lateinit var presenter: MainActivityPresenter
 
-    var database: DatabaseReference? = null
+    @Inject lateinit var dbRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        CanteenApplication.appComponent.inject(this)
 
         setContentView(R.layout.activity_category)
 //        val toolbar = findViewById(R.id.toolbar) as Toolbar
@@ -39,9 +37,8 @@ class CategoryActivity : BaseActivity() {
         title = presenter.category!!.Name
 
         showProgressDialog()
-        database = FirebaseDatabase.getInstance().reference
         val dishId = presenter.category!!.Id
-        database?.child("reviews")?.child("$dishId")?.addValueEventListener(object : ValueEventListener {
+        dbRef.child("reviews")?.child("$dishId")?.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError?) {
                 Log.w("TAG", "Failed to read value.", error?.toException())
             }
@@ -75,19 +72,16 @@ class CategoryActivity : BaseActivity() {
     }
 
     fun writeNewReview(dishId: String, author: String, text: String, rating: Float) {
-        database?.let {
-            val review = Review(dishId, author, text, rating, Date().time)
-            val mapReview = review.toMap()
-            it.updateChildren(mapOf("/reviews/$dishId/$author" to mapReview))
-        }
+        val review = Review(dishId, author, text, rating, Date().time)
+        val mapReview = review.toMap()
+        dbRef.updateChildren(mapOf("/reviews/$dishId/$author" to mapReview))
+
     }
 
     fun updateDish(id: String, title: String, price: Float = 0.0f, rating: Float) {
-        database?.let {
-            val dish = Dish(id, title, price, rating)
-            val valueMap = dish.toMap()
-//            it.updateChildren()
-        }
+        val dish = Dish(id, title, price, rating)
+        val valueMap = dish.toMap()
+
     }
 
     /**
@@ -104,5 +98,9 @@ class CategoryActivity : BaseActivity() {
         (reviewLayout.findViewById(R.id.rating) as RatingBar).rating = review.rating
 
         review_layout.addView(reviewLayout)
+    }
+
+    override fun inject() {
+        CanteenApplication.appComponent.inject(this)
     }
 }
