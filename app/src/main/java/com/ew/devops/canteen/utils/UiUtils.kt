@@ -4,9 +4,6 @@ import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
 import com.ew.devops.canteen.R
 
-/**
- * Created by Evgeny on 27-Jan-17.
- */
 class UiUtils {
     companion object StaticMethods {
         

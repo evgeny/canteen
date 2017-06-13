@@ -7,7 +7,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = arrayOf(AppModule::class, NetworkModule::class))
+@Component(modules = arrayOf(AppModule::class, NetworkModule::class, FirebaseModule::class))
 interface AppComponent {
     fun inject(dayMenuFragment: DayMenuFragment)
     fun inject(categoryActivity: CategoryActivity)

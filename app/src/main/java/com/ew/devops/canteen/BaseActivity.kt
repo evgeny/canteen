@@ -38,7 +38,19 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun getUid(): String {
-        return FirebaseAuth.getInstance().currentUser!!.uid
+        FirebaseAuth.getInstance().currentUser?.let {
+            return it.uid
+        }
+
+        return ""
+    }
+
+    fun getUserName(): String? {
+        FirebaseAuth.getInstance().currentUser?.let {
+            return it.displayName
+        }
+
+        return null
     }
 
     /**

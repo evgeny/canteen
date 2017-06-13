@@ -8,6 +8,8 @@ import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
+import com.ew.devops.canteen.utils.subtitle
+import com.ew.devops.canteen.utils.title
 import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.app_bar_menu.*
 
@@ -39,6 +41,12 @@ class MenuActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         tabLayout.setupWithViewPager(pager)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        setDrawerUserName()
+    }
+
     override fun onBackPressed() {
         val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -62,5 +70,10 @@ class MenuActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
         drawer.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun setDrawerUserName() {
+        nav_view.title = getUid()
+        getUserName()?.let { nav_view.subtitle = it }
     }
 }
