@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import javax.inject.Inject
 
@@ -27,6 +28,7 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
         email_sign_in_button.setOnClickListener(this)
         email_create_account_button.setOnClickListener(this)
         sign_out_button.setOnClickListener(this)
+        btn_display_name.setOnClickListener(this)
 
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance()
@@ -127,6 +129,28 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
         // [END sign_in_with_email]
     }
 
+    /**
+     * update user icon and name
+     */
+    private fun updateUserProfile() {
+        val user = mAuth.currentUser
+
+        // TODO read username from input field
+        val profileUpdates = UserProfileChangeRequest.Builder()
+                .setDisplayName(et_display_name.text.toString())
+//                .setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
+                .build()
+
+        user?.updateProfile(profileUpdates)?.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(this, "Profile update is completed", Toast.LENGTH_SHORT).show()
+                updateUI(mAuth.currentUser)
+            } else {
+                Log.e(TAG, "profile update failed")
+            }
+        }
+    }
+
     private fun signOut() {
         mAuth.signOut()
         updateUI(null)
@@ -157,7 +181,7 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
     private fun updateUI(user: FirebaseUser?) = //        hideProgressDialog()
             if (user != null) {
                 status!!.text = user.email
-                detail!!.text = user.uid
+                detail!!.text = user.displayName
 
                 email_password_buttons.visibility = View.GONE
                 email_password_fields.visibility = View.GONE
@@ -173,12 +197,11 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         val i = v.id
-        if (i == R.id.email_create_account_button) {
-            createAccount(field_email!!.text.toString(), field_password!!.text.toString())
-        } else if (i == R.id.email_sign_in_button) {
-            signIn(field_email!!.text.toString(), field_password!!.text.toString())
-        } else if (i == R.id.sign_out_button) {
-            signOut()
+        when (i) {
+            R.id.email_create_account_button -> createAccount(field_email!!.text.toString(), field_password!!.text.toString())
+            R.id.email_sign_in_button -> signIn(field_email!!.text.toString(), field_password!!.text.toString())
+            R.id.sign_out_button -> signOut()
+            R.id.btn_display_name -> updateUserProfile()
         }
     }
 

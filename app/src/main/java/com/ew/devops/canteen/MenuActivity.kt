@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import com.ew.devops.canteen.utils.subtitle
 import com.ew.devops.canteen.utils.title
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.app_bar_menu.*
 
@@ -73,7 +74,15 @@ class MenuActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     private fun setDrawerUserName() {
-        nav_view.title = getUid()
-        getUserName()?.let { nav_view.subtitle = it }
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user == null || user.displayName == null) {
+            nav_view.title = "Anonymous"
+        } else {
+            nav_view.title = user.displayName!!
+        }
+
+        if (user != null && user.email != null) {
+            nav_view.subtitle = user.email!!
+        }
     }
 }
