@@ -133,15 +133,14 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
      * update user icon and name
      */
     private fun updateUserProfile() {
-        val user = mAuth.currentUser
+        val user = mAuth.currentUser ?: return
 
-        // TODO read username from input field
         val profileUpdates = UserProfileChangeRequest.Builder()
                 .setDisplayName(et_display_name.text.toString())
 //                .setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
                 .build()
 
-        user?.updateProfile(profileUpdates)?.addOnCompleteListener { task ->
+        user.updateProfile(profileUpdates).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Toast.makeText(this, "Profile update is completed", Toast.LENGTH_SHORT).show()
                 updateUI(mAuth.currentUser)
