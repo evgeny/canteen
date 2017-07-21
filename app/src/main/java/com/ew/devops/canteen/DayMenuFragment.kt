@@ -59,7 +59,9 @@ class DayMenuFragment : Fragment() {
 
     fun parseResponse(content: ContentMenu, container: ViewGroup?, inflater: LayoutInflater?) {
 //        val dbRef = FirebaseDatabase.getInstance().reference
-        content.Categories.forEach {
+        val cats = content.Categories ?: return
+
+        cats.forEach {
             val menuItem = inflater?.inflate(R.layout.card_day_menu_item, container, false) as CardView
 
             val categoryView = menuItem.findViewById(R.id.day_menu_category) as TextView

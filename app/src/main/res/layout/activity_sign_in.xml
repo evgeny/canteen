@@ -40,18 +40,24 @@
             style="@style/ThemeOverlay.MyTextDetail"
             tools:text="Firebase User ID: 123456789abc" />
 
-        <EditText
-            android:id="@+id/et_display_name"
+        <LinearLayout
+            android:id="@+id/profile_fields"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="display name" />
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btn_display_name"
-            android:theme="@style/ThemeOverlay.MyDarkButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="upate profile" />
+            <EditText
+                android:id="@+id/et_display_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="display name" />
+
+            <Button
+                android:id="@+id/btn_display_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="upate profile"
+                android:theme="@style/ThemeOverlay.MyDarkButton" />
+        </LinearLayout>
 
     </LinearLayout>
 

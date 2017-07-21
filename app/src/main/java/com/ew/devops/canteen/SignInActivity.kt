@@ -135,6 +135,7 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
     private fun updateUserProfile() {
         val user = mAuth.currentUser ?: return
 
+        showProgressDialog()
         val profileUpdates = UserProfileChangeRequest.Builder()
                 .setDisplayName(et_display_name.text.toString())
 //                .setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
@@ -147,6 +148,8 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
             } else {
                 Log.e(TAG, "profile update failed")
             }
+
+            hideProgressDialog()
         }
     }
 
@@ -184,6 +187,7 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
 
                 email_password_buttons.visibility = View.GONE
                 email_password_fields.visibility = View.GONE
+                profile_fields.visibility = View.VISIBLE
                 sign_out_button.visibility = View.VISIBLE
             } else {
                 status!!.setText(R.string.signed_out)
@@ -191,7 +195,8 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
 
                 email_password_buttons.visibility = View.VISIBLE
                 email_password_fields.visibility = View.VISIBLE
-                sign_out_button.setVisibility(View.GONE)
+                sign_out_button.visibility = View.GONE
+                profile_fields.visibility = View.GONE
             }
 
     override fun onClick(v: View) {
