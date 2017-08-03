@@ -51,6 +51,7 @@ class DayMenuFragment : Fragment() {
 
         presenter.getMenu(activity.getPreferences(Context.MODE_PRIVATE), date).subscribe({ response ->
             Log.d("TAG", "menu response=" + response)
+            empty_view.visibility = View.GONE
             parseResponse(response.Content, day_menu_content, inflater)
         }, { error -> Log.e("TAG", "", error) })
 
