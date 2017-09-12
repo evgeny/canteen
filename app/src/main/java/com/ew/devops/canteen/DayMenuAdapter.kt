@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class DayMenuAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager) {
@@ -12,37 +13,41 @@ class DayMenuAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapt
     private val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     private val dateFormatterTab = SimpleDateFormat("EEE, d MMM", Locale.getDefault())
     private var dayOver = 0
-    private val workingDays = ArrayList<Date>()
+    private var workingDays:ArrayList<Date>
 
     //TODO show rest from the current week, starting today + 5 week day of the next week
     init {
         val menuDate = Calendar.getInstance()
         val weekDay = menuDate.get(Calendar.DAY_OF_WEEK)
-
-
+        workingDays = fillDays(menuDate)
     }
 
-    private fun fillDays() {
-        val secondWeek = false
-        val fridaySecondWeek = false
-        val nextDay = Calendar.getInstance()
+    fun fillDays(menuDate: Calendar): ArrayList<Date> {
+        var weekCounter = 0
+        val days = ArrayList<Date>()
 
-        var dayOfWeek:Int
+        var dayOfWeek: Int
         do {
-            dayOfWeek = nextDay.get(Calendar.DAY_OF_WEEK)
+            // emit week of day and choose a next day relaying on it
+            dayOfWeek = menuDate.get(Calendar.DAY_OF_WEEK)
 
             if (dayOfWeek == Calendar.SATURDAY) {
-                nextDay.add(Calendar.DAY_OF_MONTH, 2)
+                menuDate.add(Calendar.DAY_OF_MONTH, 2)
                 continue
             } else if (dayOfWeek == Calendar.SUNDAY) {
-                nextDay.add(Calendar.DAY_OF_MONTH, 1)
+                menuDate.add(Calendar.DAY_OF_MONTH, 1)
                 continue
+            } else if (dayOfWeek == Calendar.FRIDAY) {
+                weekCounter++
             }
 
+            // add day to all-days-list
+            days.add(Date(menuDate.timeInMillis))
 
-            workingDays.add(Date(nextDay.timeInMillis))
-            nextDay.add(Calendar.DAY_OF_MONTH, 1)
-        } while (!secondWeek && !fridaySecondWeek)
+            menuDate.add(Calendar.DAY_OF_MONTH, 1)
+        } while (weekCounter < 2) //only for next two week
+
+        return days
     }
 
     override fun getItem(position: Int): Fragment {

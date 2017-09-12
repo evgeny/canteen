@@ -31,6 +31,14 @@ android {
     }
 }
 
+afterEvaluate {
+    android.sourceSets.all { sourceSet ->
+        if (!sourceSet.name.startsWith('test') || !sourceSet.name.startsWith('androidTest')) {
+            sourceSet.kotlin.setSrcDirs([])
+        }
+    }
+}
+
 kapt {
     generateStubs = true
 }
@@ -79,6 +87,11 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     provided 'org.glassfish:javax.annotation:10.0-b28'
+
+    // testing
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:${rootProject.ext.kotlinVersion}"
+    testCompile 'com.nhaarman:mockito-kotlin:1.5.0'
+//    testCompile 'org.amshove.kluent:kluent:1.28'
 }
 
 repositories {
