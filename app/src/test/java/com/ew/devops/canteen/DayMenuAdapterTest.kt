@@ -32,5 +32,10 @@ class DayMenuAdapterTest {
         date.timeInMillis
         days = dayMenuAdapter.fillDays(date)
         assertEquals("days count if today is saturday", 10, days.size)
+
+        date.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY)
+        date.timeInMillis
+        days = dayMenuAdapter.fillDays(date)
+        assertEquals("days count, if today is wednesday", 8, days.size)
     }
 }

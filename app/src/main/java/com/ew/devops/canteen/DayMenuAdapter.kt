@@ -12,16 +12,16 @@ class DayMenuAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapt
 
     private val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     private val dateFormatterTab = SimpleDateFormat("EEE, d MMM", Locale.getDefault())
-    private var dayOver = 0
-    private var workingDays:ArrayList<Date>
+    private val workingDays:ArrayList<Date>
 
-    //TODO show rest from the current week, starting today + 5 week day of the next week
     init {
         val menuDate = Calendar.getInstance()
-        val weekDay = menuDate.get(Calendar.DAY_OF_WEEK)
         workingDays = fillDays(menuDate)
     }
 
+    /**
+     * fill date list with working days up to end of next week
+     */
     fun fillDays(menuDate: Calendar): ArrayList<Date> {
         var weekCounter = 0
         val days = ArrayList<Date>()
@@ -51,52 +51,14 @@ class DayMenuAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapt
     }
 
     override fun getItem(position: Int): Fragment {
-        val menuDate = Calendar.getInstance()
-        menuDate.add(Calendar.DAY_OF_MONTH, position)
+        val menuDate = workingDays[position]
 
-        val formattedDate = dateFormatter.format(menuDate.time)
+        val formattedDate = dateFormatter.format(menuDate)
         return DayMenuFragment.newInstance(formattedDate)
     }
 
-    override fun getCount(): Int {
-        var count = 5
-        val today = Calendar.getInstance()
-        val weekday = today.get(Calendar.DAY_OF_WEEK)
-        count += when (weekday) {
-            Calendar.MONDAY -> 5
-            Calendar.TUESDAY -> 4
-            Calendar.WEDNESDAY -> 3
-            Calendar.THURSDAY -> 2
-            Calendar.FRIDAY -> 1
-            else -> 5
-        }
+    override fun getCount(): Int = workingDays.size
 
-        return count
-    }
-
-    override fun getPageTitle(position: Int): CharSequence {
-        val menuDate = Calendar.getInstance()
-
-        menuDate.add(Calendar.DAY_OF_MONTH, position)
-        /*menuDate.add(Calendar.DAY_OF_MONTH, position + dayOver)
-
-        if (menuDate.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
-            dayOver += 2
-            menuDate.add(Calendar.DAY_OF_MONTH, 2)
-        }*/
-
-        return dateFormatterTab.format(menuDate.time)
-    }
-
-    private fun getMenuDate(position: Int): Calendar {
-        val menuDate = Calendar.getInstance()
-        menuDate.add(Calendar.DAY_OF_MONTH, position + dayOver)
-
-        if (menuDate.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
-            dayOver += 2
-            menuDate.add(Calendar.DAY_OF_MONTH, 2)
-        }
-
-        return menuDate
-    }
+    override fun getPageTitle(position: Int): CharSequence =
+            dateFormatterTab.format(workingDays[position])
 }
