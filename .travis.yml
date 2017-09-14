@@ -40,4 +40,4 @@ before_install:
 before_script:
   mv library/google-services.json app/google-services.json
 
-script: ./gradlew build connectedCheck
+script: ./gradlew build test
