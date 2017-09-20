@@ -1,10 +1,10 @@
 package com.ew.devops.canteen
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.util.Log
 import android.widget.RatingBar
 import android.widget.TextView
+import com.ew.devops.canteen.dish.RatingFragment
 import com.ew.devops.canteen.models.Review
 import com.ew.devops.canteen.network.Product
 import com.ew.devops.canteen.presenter.MainActivityPresenter
@@ -20,7 +20,11 @@ import java.util.*
 import javax.inject.Inject
 
 
-class CategoryActivity : BaseActivity() {
+class CategoryActivity : BaseActivity(), RatingFragment.ReviewInterface {
+
+    override fun postReview(rating: Float, comment: String, dishId: Int) {
+        writeNewReview(dishId.toString(), getUid(), comment, rating)
+    }
 
     @Inject lateinit var presenter: MainActivityPresenter
 
@@ -58,27 +62,34 @@ class CategoryActivity : BaseActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
                 hideProgressDialog()
                 // TODO if review was changed it's appear double in review feed
+                var averageRating = 0f
+                var childrenCount = 0
                 dataSnapshot?.children?.forEach {
                     val review = it.getValue(Review::class.java)
                     Log.d("CategoryActivity", "Value is: " + review.text)
                     appendReview(review)
+
+                    averageRating += review.rating
+                    childrenCount++
                 }
+
+                rating.rating = averageRating / childrenCount
             }
         })
 
-        publish.setOnClickListener { view ->
-            // Write a message to the database
-
-            val reviewBody = review.text.toString()
-            val rating = rating.rating
-            val dish = product.Id
-
-            writeNewReview(dish.toString(), getUid(), reviewBody, rating)
-        }
+//        publish.setOnClickListener {
+//            // Write a message to the database
+//
+//            val reviewBody = review.text.toString()
+//            val rating = rating.rating
+//            val dish = product.Id
+//
+//            writeNewReview(dish.toString(), getUid(), reviewBody, rating)
+//        }
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            val dialog = RatingFragment.newInstance(product.Id)
+            dialog.show(fragmentManager, "RatingFragment")
         }
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
