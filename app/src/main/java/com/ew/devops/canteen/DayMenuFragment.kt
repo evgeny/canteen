@@ -3,6 +3,7 @@ package com.ew.devops.canteen
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
@@ -14,11 +15,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.ew.devops.canteen.network.ContentMenu
 import com.ew.devops.canteen.presenter.MainActivityPresenter
+import com.ew.devops.canteen.utils.UiUtils
 import kotlinx.android.synthetic.main.fragment_day_menu.*
 import javax.inject.Inject
-import android.support.v4.app.ActivityOptionsCompat
-import com.ew.devops.canteen.utils.UiUtils
-import com.google.firebase.database.FirebaseDatabase
 
 
 class DayMenuFragment : Fragment() {
@@ -27,7 +26,7 @@ class DayMenuFragment : Fragment() {
 
     companion object Factory {
         fun newInstance(date: String): DayMenuFragment {
-            val args: Bundle = Bundle(1)
+            val args = Bundle(1)
             args.putString("date", date)
 
             val fragment = DayMenuFragment()
@@ -58,9 +57,9 @@ class DayMenuFragment : Fragment() {
         return view
     }
 
-    fun parseResponse(content: ContentMenu, container: ViewGroup?, inflater: LayoutInflater?) {
+    private fun parseResponse(content: ContentMenu, container: ViewGroup?, inflater: LayoutInflater?) {
 //        val dbRef = FirebaseDatabase.getInstance().reference
-        val cats = content.Categories ?: return
+        val cats = content.Categories
 
         cats.forEach {
             val menuItem = inflater?.inflate(R.layout.card_day_menu_item, container, false) as CardView
@@ -70,7 +69,7 @@ class DayMenuFragment : Fragment() {
 
             // set price and description
             val productView = menuItem.findViewById(R.id.day_menu_product) as TextView
-            val priceView = menuItem.findViewById(R.id.day_menu_price) as TextView
+//            val priceView = menuItem.findViewById(R.id.day_menu_price) as TextView
 //            if (it.Products[0].Name.contains("€")) {
 //                priceView.text = it.Products[0].Name
                 productView.text = it.Products[0].Name

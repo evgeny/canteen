@@ -24,6 +24,8 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
 
+        setStatusBarColor(R.color.light_green_300)
+
         // Buttons
         email_sign_in_button.setOnClickListener(this)
         email_create_account_button.setOnClickListener(this)
@@ -214,7 +216,6 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
     }
 
     companion object {
-
         private val TAG = "EmailPassword"
     }
 }

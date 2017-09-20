@@ -9,6 +9,7 @@
     tools:showIn="@layout/activity_category">
 
     <LinearLayout
+        android:layout_marginTop="16dp"
         android:padding="8dp"
         android:id="@+id/review_layout"
         android:layout_width="match_parent"
@@ -16,11 +17,20 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/dish"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            tools:text="very very very very testy meal" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:textStyle="bold"
-            android:text="Bewerten"/>
+            tools:text="Rate It"
+            android:text="Rate it"/>
 
         <RatingBar
             android:id="@+id/rating"
