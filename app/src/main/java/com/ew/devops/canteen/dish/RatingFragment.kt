@@ -5,15 +5,11 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.app.DialogFragment
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.widget.RatingBar
+import android.widget.TextView
 import com.ew.devops.canteen.R
-import kotlinx.android.synthetic.main.fragment_rating.*
 
 
 /**
@@ -57,7 +53,11 @@ class RatingFragment : DialogFragment() {
         builder.setView(inflater.inflate(R.layout.fragment_rating, null))
         builder.setMessage("Rating")
 //                .setPositiveButton("Post", { dialog, which -> Log.d("TAG", "click on post") })
-                .setPositiveButton("Post", { dialog, which -> listener.postReview(rating.rating, comment.text.toString(), 1) })
+                .setPositiveButton("Post", { dialog, which -> run {
+                    val ratingBar = getDialog().findViewById(R.id.rating) as RatingBar
+                    val comment = getDialog().findViewById(R.id.comment) as TextView
+                    listener.postReview(ratingBar.rating, comment.text.toString(), 1)
+                } })
                 .setNegativeButton("Dismiss", { dialog, which ->  dialog.dismiss()})
         return builder.create()
     }
