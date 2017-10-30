@@ -5,13 +5,13 @@ import android.widget.TextView
 import com.ew.devops.canteen.R
 
 var NavigationView.title: CharSequence
-    get() = (this.getHeaderView(0).findViewById(R.id.drawer_header_title) as TextView).text
+    get() = this.getHeaderView(0).findViewById<TextView>(R.id.drawer_header_title).text
     set(value) {
-        (this.getHeaderView(0).findViewById(R.id.drawer_header_title) as TextView).text = value
+        this.getHeaderView(0).findViewById<TextView>(R.id.drawer_header_title).text = value
     }
 
 var NavigationView.subtitle: CharSequence
-    get() = (this.getHeaderView(0).findViewById(R.id.drawer_header_subtitle) as TextView).text
+    get() = this.getHeaderView(0).findViewById<TextView>(R.id.drawer_header_subtitle).text
     set(value) {
-        (this.getHeaderView(0).findViewById(R.id.drawer_header_subtitle) as TextView).text = value
+        this.getHeaderView(0).findViewById<TextView>(R.id.drawer_header_subtitle).text = value
     }

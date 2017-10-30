@@ -66,11 +66,13 @@ class CategoryActivity : BaseActivity(), RatingFragment.ReviewInterface {
                 var childrenCount = 0
                 dataSnapshot?.children?.forEach {
                     val review = it.getValue(Review::class.java)
-                    Log.d("CategoryActivity", "Value is: " + review.text)
-                    appendReview(review)
+                    if (review != null) {
+                        Log.d("CategoryActivity", "Value is: " + review.text)
+                        appendReview(review)
 
-                    averageRating += review.rating
-                    childrenCount++
+                        averageRating += review.rating
+                        childrenCount++
+                    }
                 }
 
                 rating.rating = averageRating / childrenCount
@@ -112,11 +114,11 @@ class CategoryActivity : BaseActivity(), RatingFragment.ReviewInterface {
      */
     fun appendReview(review: Review) {
         val reviewLayout = layoutInflater.inflate(R.layout.review_layout, review_layout, false)
-        (reviewLayout.findViewById(R.id.name) as TextView).text = review.author
+        reviewLayout.findViewById<TextView>(R.id.name).text = review.author
 
-        (reviewLayout.findViewById(R.id.date) as TextView).text = reviewDateFormatter.format(Date(review.timestamp))
-        (reviewLayout.findViewById(R.id.review) as TextView).text = review.text
-        (reviewLayout.findViewById(R.id.rating) as RatingBar).rating = review.rating
+        reviewLayout.findViewById<TextView>(R.id.date).text = reviewDateFormatter.format(Date(review.timestamp))
+        reviewLayout.findViewById<TextView>(R.id.review).text = review.text
+        reviewLayout.findViewById<RatingBar>(R.id.rating).rating = review.rating
 
         review_layout.addView(reviewLayout)
     }

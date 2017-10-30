@@ -30,16 +30,14 @@ class MenuActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         drawer_layout.setDrawerListener(toggle)
         toggle.syncState()
 
-        val navigationView = findViewById(R.id.nav_view) as NavigationView
-        navigationView.setNavigationItemSelectedListener(this)
+        nav_view.setNavigationItemSelectedListener(this)
 
         tabs.tabMode = TabLayout.MODE_SCROLLABLE
 
         val adapter = DayMenuAdapter(supportFragmentManager)
         pager.adapter = adapter
 
-        val tabLayout = findViewById(R.id.tabs) as TabLayout
-        tabLayout.setupWithViewPager(pager)
+        tabs.setupWithViewPager(pager)
     }
 
     override fun onResume() {
@@ -49,7 +47,7 @@ class MenuActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun onBackPressed() {
-        val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
+        val drawer = drawer_layout
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START)
         } else {
@@ -68,8 +66,7 @@ class MenuActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
         }
 
-        val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
-        drawer.closeDrawer(GravityCompat.START)
+        drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
 

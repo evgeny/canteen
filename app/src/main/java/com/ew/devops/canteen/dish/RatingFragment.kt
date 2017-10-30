@@ -54,8 +54,8 @@ class RatingFragment : DialogFragment() {
         builder.setMessage("Rating")
 //                .setPositiveButton("Post", { dialog, which -> Log.d("TAG", "click on post") })
                 .setPositiveButton("Post", { dialog, which -> run {
-                    val ratingBar = getDialog().findViewById(R.id.rating) as RatingBar
-                    val comment = getDialog().findViewById(R.id.comment) as TextView
+                    val ratingBar = getDialog().findViewById<RatingBar>(R.id.rating)
+                    val comment = getDialog().findViewById<TextView>(R.id.comment)
                     listener.postReview(ratingBar.rating, comment.text.toString(), 1)
                 } })
                 .setNegativeButton("Dismiss", { dialog, which ->  dialog.dismiss()})
