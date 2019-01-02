@@ -1,2 +1,2 @@
 # canteen!
-[alt](https://travis-ci.org/evgeny/canteen.svg?branch=master)
+![alt text](https://travis-ci.org/evgeny/canteen.svg?branch=master)
