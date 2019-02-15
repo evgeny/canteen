@@ -13,7 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.ew.devops.canteen.network.ContentMenu
+import com.ew.devops.canteen.network.Category
 import com.ew.devops.canteen.presenter.MainActivityPresenter
 import com.ew.devops.canteen.utils.UiUtils
 import kotlinx.android.synthetic.main.fragment_day_menu.*
@@ -26,7 +26,7 @@ class DayMenuFragment : Fragment() {
 
     companion object Factory {
         fun newInstance(date: String): DayMenuFragment {
-            val args: Bundle = Bundle(1)
+            val args = Bundle(1)
             args.putString("date", date)
 
             val fragment = DayMenuFragment()
@@ -49,44 +49,54 @@ class DayMenuFragment : Fragment() {
 
         presenter.getMenu(activity!!.getPreferences(Context.MODE_PRIVATE), date).subscribe({ response ->
             Log.d("TAG", "menu response=" + response)
-            parseResponse(response.Content, day_menu_content, inflater)
+            val cats = response.Content.Categories
+            if (cats != null) {
+                empty_view.visibility = View.GONE
+                parseResponse(cats, day_menu_content, inflater)
+            } else {
+                // TODO
+            }
         }, { error -> Log.e("TAG", "", error) })
 
         return view
     }
 
-    fun parseResponse(content: ContentMenu, container: ViewGroup?, inflater: LayoutInflater?) {
-        content.Categories.forEach {
+    private fun parseResponse(categories: List<Category>, container: ViewGroup?, inflater: LayoutInflater?) {
+//        val dbRef = FirebaseDatabase.getInstance().reference
+
+        categories.forEach {
             val menuItem = inflater?.inflate(R.layout.card_day_menu_item, container, false) as CardView
 
-            val categoryView = menuItem.findViewById(R.id.day_menu_category) as TextView
+            val categoryView = menuItem.findViewById<TextView>(R.id.day_menu_category)
             categoryView.text = it.Name
 
             // set price and description
-            val productView = menuItem.findViewById(R.id.day_menu_product) as TextView
-            val priceView = menuItem.findViewById(R.id.day_menu_price) as TextView
-            if (it.Products[0].Name.contains("€")) {
-                priceView.text = it.Products[0].Name
-                productView.text = it.Products[1].Name
-            } else {
-                priceView.text = it.Products[1].Name
+            val productView = menuItem.findViewById<TextView>(R.id.day_menu_product)
+//            val priceView = menuItem.findViewById(R.id.day_menu_price) as TextView
+//            if (it.Products[0].Name.contains("€")) {
+//                priceView.text = it.Products[0].Name
                 productView.text = it.Products[0].Name
-            }
+//            } else {
+//                priceView.text = it.Products[1].Name
+//                productView.text = it.Products[0].Name
+//            }
 
             // set header icon
-            val imageView = menuItem.findViewById(R.id.image) as ImageView
+            val imageView = menuItem.findViewById<ImageView>(R.id.image)
             val header = menuItem.findViewById<View>(R.id.background)
             imageView.setImageResource(UiUtils.getCategoryDrawable(it.Id))
-            header.setBackgroundColor(ContextCompat.getColor(activity as Context, UiUtils.getCategoryColor(it.Id)))
+            header.setBackgroundColor(ContextCompat.getColor(activity!!, UiUtils.getCategoryColor(it.Id)))
 
+            // set comment count
+            //TODO
             // add card to fragment layout
             container?.addView(menuItem)
 
             menuItem.setOnClickListener { view ->
                 presenter.category = it
                 val dishActivity = Intent(activity, CategoryActivity::class.java)
-//                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity as Context, imageView, "test")
-                startActivity(dishActivity)
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity!!, imageView, "test")
+                startActivity(dishActivity, options.toBundle())
             }
         }
     }

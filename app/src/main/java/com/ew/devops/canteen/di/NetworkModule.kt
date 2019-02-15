@@ -1,8 +1,10 @@
 package com.ew.devops.canteen.di
 
+import com.ew.devops.canteen.CanteenApplication
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import dagger.Module
 import dagger.Provides
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
@@ -14,8 +16,8 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttp(): OkHttpClient {
-        return OkHttpClient.Builder().addNetworkInterceptor(StethoInterceptor()).build()
+    fun provideOkHttp(cache: Cache): OkHttpClient {
+        return OkHttpClient.Builder().cache(cache).addNetworkInterceptor(StethoInterceptor()).build()
     }
 
     @Provides
@@ -27,5 +29,13 @@ class NetworkModule {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideResponseCache(context: CanteenApplication): Cache {
+        val cacheSize = 5 * 1024 * 1024L // 10 MiB
+
+        return Cache(context.cacheDir, cacheSize)
     }
 }

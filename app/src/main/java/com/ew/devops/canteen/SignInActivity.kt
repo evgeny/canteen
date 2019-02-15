@@ -7,27 +7,30 @@ import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
 import kotlinx.android.synthetic.main.activity_sign_in.*
+import javax.inject.Inject
 
 
 class SignInActivity : BaseActivity(), View.OnClickListener {
 
-    // [START declare_auth]
-    private var mAuth: FirebaseAuth? = null
-    // [END declare_auth]
+    @Inject lateinit var mAuth: FirebaseAuth
 
     // [START declare_auth_listener]
-    private var mAuthListener: FirebaseAuth.AuthStateListener? = null
+    private lateinit var mAuthListener: FirebaseAuth.AuthStateListener
     // [END declare_auth_listener]
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
 
+        setStatusBarColor(R.color.light_green_300)
+
         // Buttons
         email_sign_in_button.setOnClickListener(this)
         email_create_account_button.setOnClickListener(this)
         sign_out_button.setOnClickListener(this)
+        btn_display_name.setOnClickListener(this)
 
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance()
@@ -53,19 +56,21 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
     // [START on_start_add_listener]
     override fun onStart() {
         super.onStart()
-        mAuth!!.addAuthStateListener(mAuthListener!!)
+        mAuth.addAuthStateListener(mAuthListener)
     }
     // [END on_start_add_listener]
 
     // [START on_stop_remove_listener]
     override fun onStop() {
         super.onStop()
-        if (mAuthListener != null) {
-            mAuth!!.removeAuthStateListener(mAuthListener!!)
-        }
+
+        mAuth.removeAuthStateListener(mAuthListener)
     }
     // [END on_stop_remove_listener]
 
+    /**
+     * create a new user account
+     */
     private fun createAccount(email: String, password: String) {
         Log.d(TAG, "createAccount:" + email)
         if (!validateForm()) {
@@ -75,7 +80,7 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
         showProgressDialog()
 
         // [START create_user_with_email]
-        mAuth!!.createUserWithEmailAndPassword(email, password)
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, { task ->
                     Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful)
 
@@ -103,7 +108,7 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
         showProgressDialog()
 
         // [START sign_in_with_email]
-        mAuth!!.signInWithEmailAndPassword(email, password)
+        mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, { task ->
                     Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful)
 
@@ -126,8 +131,32 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
         // [END sign_in_with_email]
     }
 
+    /**
+     * update user icon and name
+     */
+    private fun updateUserProfile() {
+        val user = mAuth.currentUser ?: return
+
+        showProgressDialog()
+        val profileUpdates = UserProfileChangeRequest.Builder()
+                .setDisplayName(et_display_name.text.toString())
+//                .setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
+                .build()
+
+        user.updateProfile(profileUpdates).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(this, "Profile update is completed", Toast.LENGTH_SHORT).show()
+                updateUI(mAuth.currentUser)
+            } else {
+                Log.e(TAG, "profile update failed")
+            }
+
+            hideProgressDialog()
+        }
+    }
+
     private fun signOut() {
-        mAuth!!.signOut()
+        mAuth.signOut()
         updateUI(null)
     }
 
@@ -156,10 +185,11 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
     private fun updateUI(user: FirebaseUser?) = //        hideProgressDialog()
             if (user != null) {
                 status!!.text = user.email
-                detail!!.text = user.uid
+                detail!!.text = user.displayName
 
                 email_password_buttons.visibility = View.GONE
                 email_password_fields.visibility = View.GONE
+                profile_fields.visibility = View.VISIBLE
                 sign_out_button.visibility = View.VISIBLE
             } else {
                 status!!.setText(R.string.signed_out)
@@ -167,22 +197,25 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
 
                 email_password_buttons.visibility = View.VISIBLE
                 email_password_fields.visibility = View.VISIBLE
-                sign_out_button.setVisibility(View.GONE)
+                sign_out_button.visibility = View.GONE
+                profile_fields.visibility = View.GONE
             }
 
     override fun onClick(v: View) {
         val i = v.id
-        if (i == R.id.email_create_account_button) {
-            createAccount(field_email!!.text.toString(), field_password!!.text.toString())
-        } else if (i == R.id.email_sign_in_button) {
-            signIn(field_email!!.text.toString(), field_password!!.text.toString())
-        } else if (i == R.id.sign_out_button) {
-            signOut()
+        when (i) {
+            R.id.email_create_account_button -> createAccount(field_email!!.text.toString(), field_password!!.text.toString())
+            R.id.email_sign_in_button -> signIn(field_email!!.text.toString(), field_password!!.text.toString())
+            R.id.sign_out_button -> signOut()
+            R.id.btn_display_name -> updateUserProfile()
         }
     }
 
-    companion object {
+    override fun inject() {
+        CanteenApplication.appComponent.inject(this)
+    }
 
+    companion object {
         private val TAG = "EmailPassword"
     }
 }

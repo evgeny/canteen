@@ -12,14 +12,10 @@ class AppModule(val app: CanteenApplication) {
 
     @Provides
     @Singleton
-    fun provideApplication(): CanteenApplication {
-        return app
-    }
+    fun provideApplication(): CanteenApplication = app
 
     @Provides
     @Singleton
-    fun provideCulinaApi(retrofit: Retrofit): CulinaApi {
-        return retrofit.create(CulinaApi::class.java)
-    }
+    fun provideCulinaApi(retrofit: Retrofit): CulinaApi = retrofit.create(CulinaApi::class.java)
 }
 
