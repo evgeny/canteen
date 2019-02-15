@@ -1,17 +1,16 @@
-//noinspection GradleCompatible
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion 28
 
     defaultConfig {
         applicationId "com.ew.devops.canteen"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -36,34 +35,34 @@ kapt {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
     // kotlin
-    compile "org.jetbrains.kotlin:kotlin-stdlib:${rootProject.ext.kotlinVersion}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:${rootProject.ext.kotlinVersion}"
 
     // support
-    compile "com.android.support:cardview-v7:${rootProject.ext.supportLibVersion}"
-    compile "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
-    compile "com.android.support:design:${rootProject.ext.supportLibVersion}"
+    implementation "com.android.support:cardview-v7:${rootProject.ext.supportLibVersion}"
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+    implementation "com.android.support:design:${rootProject.ext.supportLibVersion}"
 
     //retrofit
-    compile "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVersion}"
-    compile "com.squareup.retrofit2:converter-moshi:${rootProject.ext.retrofitVersion}"
-    compile "com.squareup.retrofit2:adapter-rxjava:${rootProject.ext.retrofitVersion}"
+    implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVersion}"
+    implementation "com.squareup.retrofit2:converter-moshi:${rootProject.ext.retrofitVersion}"
+    implementation "com.squareup.retrofit2:adapter-rxjava:${rootProject.ext.retrofitVersion}"
 
     // RxJava & RxAndroid
-    compile "io.reactivex:rxjava:${rootProject.ext.rxVersion}"
-    compile "io.reactivex:rxandroid:${rootProject.ext.rxVersion}"
+    implementation "io.reactivex:rxjava:${rootProject.ext.rxVersion}"
+    implementation "io.reactivex:rxandroid:${rootProject.ext.rxVersion}"
 
     // stetho
-    compile "com.facebook.stetho:stetho-okhttp3:${rootProject.ext.stehoVersion}"
-    compile "com.facebook.stetho:stetho:${rootProject.ext.stehoVersion}"
+    implementation "com.facebook.stetho:stetho-okhttp3:${rootProject.ext.stehoVersion}"
+    implementation "com.facebook.stetho:stetho:${rootProject.ext.stehoVersion}"
 
     // Dagger 2
-    compile "com.google.dagger:dagger:${rootProject.ext.daggerVersion}"
+    implementation "com.google.dagger:dagger:${rootProject.ext.daggerVersion}"
     kapt "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}"
 
     // Glide Image loading library
@@ -72,13 +71,13 @@ dependencies {
     //constrain layout
     
     // firebasse
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
-    compile 'com.google.firebase:firebase-database:10.0.1'
-    compile 'com.google.firebase:firebase-auth:10.0.1'
-    testCompile 'junit:junit:4.12'
-    provided 'org.glassfish:javax.annotation:10.0-b28'
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    implementation 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
+    implementation 'com.android.support.constraint:constraint-layout:2.0.0-alpha3'
+    implementation 'com.google.firebase:firebase-database:16.0.6'
+    implementation 'com.google.firebase:firebase-auth:16.1.0'
+    testImplementation 'junit:junit:4.12'
+    compileOnly 'org.glassfish:javax.annotation:10.0-b28'
 }
 
 repositories {

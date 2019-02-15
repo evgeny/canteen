@@ -3,6 +3,7 @@ package com.ew.devops.canteen
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
@@ -14,10 +15,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.ew.devops.canteen.network.ContentMenu
 import com.ew.devops.canteen.presenter.MainActivityPresenter
+import com.ew.devops.canteen.utils.UiUtils
 import kotlinx.android.synthetic.main.fragment_day_menu.*
 import javax.inject.Inject
-import android.support.v4.app.ActivityOptionsCompat
-import com.ew.devops.canteen.utils.UiUtils
 
 
 class DayMenuFragment : Fragment() {
@@ -42,13 +42,12 @@ class DayMenuFragment : Fragment() {
         CanteenApplication.appComponent.inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_day_menu, container, false)
 
-        val view = inflater?.inflate(R.layout.fragment_day_menu, container, false)
+        val date: String = arguments!!.getString("date")
 
-        val date: String = arguments.getString("date")
-
-        presenter.getMenu(activity.getPreferences(Context.MODE_PRIVATE), date).subscribe({ response ->
+        presenter.getMenu(activity!!.getPreferences(Context.MODE_PRIVATE), date).subscribe({ response ->
             Log.d("TAG", "menu response=" + response)
             parseResponse(response.Content, day_menu_content, inflater)
         }, { error -> Log.e("TAG", "", error) })
@@ -76,9 +75,9 @@ class DayMenuFragment : Fragment() {
 
             // set header icon
             val imageView = menuItem.findViewById(R.id.image) as ImageView
-            val header = menuItem.findViewById(R.id.background)
+            val header = menuItem.findViewById<View>(R.id.background)
             imageView.setImageResource(UiUtils.getCategoryDrawable(it.Id))
-            header.setBackgroundColor(ContextCompat.getColor(activity, UiUtils.getCategoryColor(it.Id)))
+            header.setBackgroundColor(ContextCompat.getColor(activity as Context, UiUtils.getCategoryColor(it.Id)))
 
             // add card to fragment layout
             container?.addView(menuItem)
@@ -86,8 +85,8 @@ class DayMenuFragment : Fragment() {
             menuItem.setOnClickListener { view ->
                 presenter.category = it
                 val dishActivity = Intent(activity, CategoryActivity::class.java)
-                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imageView, "test")
-                startActivity(dishActivity, options.toBundle())
+//                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity as Context, imageView, "test")
+                startActivity(dishActivity)
             }
         }
     }
