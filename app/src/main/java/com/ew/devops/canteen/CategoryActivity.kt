@@ -54,17 +54,17 @@ class CategoryActivity : BaseActivity(), RatingFragment.ReviewInterface {
 
         showProgressDialog()
         val dishId = product.Id
-        dbRef.child("reviews")?.child("$dishId")?.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(error: DatabaseError?) {
-                Log.w("CategoryActivity", "Failed to read value.", error?.toException())
+        dbRef.child("reviews").child("$dishId").addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                Log.w("CategoryActivity", "Failed to read value.", error.toException())
             }
 
-            override fun onDataChange(dataSnapshot: DataSnapshot?) {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
                 hideProgressDialog()
                 // TODO if review was changed it's appear double in review feed
                 var averageRating = 0f
                 var childrenCount = 0
-                dataSnapshot?.children?.forEach {
+                dataSnapshot.children.forEach {
                     val review = it.getValue(Review::class.java)
                     if (review != null) {
                         Log.d("CategoryActivity", "Value is: " + review.text)

@@ -1,6 +1,6 @@
 package com.ew.devops.canteen.network
 
-import rx.Observable
+import io.reactivex.Observable
 import javax.inject.Inject
 
 class CulinaApiService @Inject constructor(private val culinaApi: CulinaApi) : CulinaApi {
@@ -9,8 +9,8 @@ class CulinaApiService @Inject constructor(private val culinaApi: CulinaApi) : C
         return culinaApi.getMenu(authorization)
     }
 
-    override fun getNewIdentitiy(deviceType: String): Observable<ApiResponse<ContentNewIdentity>> {
-        return culinaApi.getNewIdentitiy(deviceType)
+    override fun getNewIdentity(deviceType: String): Observable<ApiResponse<ContentNewIdentity>> {
+        return culinaApi.getNewIdentity(deviceType)
     }
 
     override fun getMenu(authorization: String, date: String): Observable<ApiResponse<ContentMenu>> {

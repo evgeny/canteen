@@ -1,10 +1,10 @@
 package com.ew.devops.canteen.network
 
+import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.Query
-import rx.Observable
 
 interface CulinaApi {
     /**
@@ -46,7 +46,7 @@ interface CulinaApi {
      */
     @Headers("Accept: application/json", "App-Feature-Set: 1793")
     @GET("cons/api/NewIdentity")
-    fun getNewIdentitiy(@Query("deviceType") deviceType: String): Observable<ApiResponse<ContentNewIdentity>>
+    fun getNewIdentity(@Query("deviceType") deviceType: String): Observable<ApiResponse<ContentNewIdentity>>
 
     //https://104.47.143.161/cons/api/v2/Master?since=1457002509060
 //    GET /cons/api/Stores/20943/Menu HTTP/1.1

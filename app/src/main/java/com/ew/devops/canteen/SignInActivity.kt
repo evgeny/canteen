@@ -81,7 +81,7 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
 
         // [START create_user_with_email]
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, { task ->
+                .addOnCompleteListener(this) { task ->
                     Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful)
 
                     // If sign in fails, display a message to the user. If sign in succeeds
@@ -95,7 +95,7 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
                     // [START_EXCLUDE]
                     hideProgressDialog()
                     // [END_EXCLUDE]
-                })
+                }
         // [END create_user_with_email]
     }
 
@@ -109,7 +109,7 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
 
         // [START sign_in_with_email]
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, { task ->
+                .addOnCompleteListener(this) { task ->
                     Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful)
 
                     // If sign in fails, display a message to the user. If sign in succeeds
@@ -127,7 +127,7 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
                     }
                     hideProgressDialog()
                     // [END_EXCLUDE]
-                })
+                }
         // [END sign_in_with_email]
     }
 

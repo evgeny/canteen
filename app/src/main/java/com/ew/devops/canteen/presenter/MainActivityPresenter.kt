@@ -5,9 +5,9 @@ import com.ew.devops.canteen.network.ApiResponse
 import com.ew.devops.canteen.network.Category
 import com.ew.devops.canteen.network.ContentMenu
 import com.ew.devops.canteen.network.CulinaApiService
-import rx.Observable
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,7 +19,7 @@ class MainActivityPresenter @Inject constructor(private var culinaApiService: Cu
     fun getApiToken(prefs: SharedPreferences): Observable<String> {
         val token = prefs.getString("api_token", "")
         if (token.isEmpty()) {
-            return culinaApiService.getNewIdentitiy("Android+6.0.1").map({
+            return culinaApiService.getNewIdentity("Android+6.0.1").map({
                 response ->
                 "0" + response.Content.ApiKey
             }).doOnNext({ token -> prefs.edit().putString("api_token", token).apply() })

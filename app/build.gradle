@@ -51,11 +51,12 @@ dependencies {
     //retrofit
     implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVersion}"
     implementation "com.squareup.retrofit2:converter-moshi:${rootProject.ext.retrofitVersion}"
-    implementation "com.squareup.retrofit2:adapter-rxjava:${rootProject.ext.retrofitVersion}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${rootProject.ext.retrofitVersion}"
 
     // RxJava & RxAndroid
-    implementation "io.reactivex:rxjava:${rootProject.ext.rxVersion}"
-    implementation "io.reactivex:rxandroid:${rootProject.ext.rxVersion}"
+    implementation "io.reactivex.rxjava2:rxjava:${rootProject.ext.rxVersion}"
+//    implementation "io.reactivex:rxandroid:${rootProject.ext.rxVersion}"
+    implementation "io.reactivex.rxjava2:rxandroid:${rootProject.ext.rxAndroid}"
 
     // stetho
     implementation "com.facebook.stetho:stetho-okhttp3:${rootProject.ext.stehoVersion}"
@@ -70,7 +71,7 @@ dependencies {
 
     //constrain layout
     
-    // firebasse
+    // firebase
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     implementation 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
     implementation 'com.android.support.constraint:constraint-layout:2.0.0-alpha3'
