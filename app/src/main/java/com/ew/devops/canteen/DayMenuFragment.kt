@@ -48,7 +48,6 @@ class DayMenuFragment : Fragment() {
         val date: String = arguments!!.getString("date")
 
         presenter.getMenu(activity!!.getPreferences(Context.MODE_PRIVATE), date).subscribe({ response ->
-            Log.d("TAG", "menu response=" + response)
             val cats = response.Content.Categories
             if (cats != null) {
                 empty_view.visibility = View.GONE

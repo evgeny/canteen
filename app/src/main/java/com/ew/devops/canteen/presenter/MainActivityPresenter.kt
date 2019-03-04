@@ -18,13 +18,12 @@ class MainActivityPresenter @Inject constructor(private var culinaApiService: Cu
 
     fun getApiToken(prefs: SharedPreferences): Observable<String> {
         val token = prefs.getString("api_token", "")
-        if (token.isEmpty()) {
-            return culinaApiService.getNewIdentity("Android+6.0.1").map({
-                response ->
+        return if (token.isEmpty()) {
+            culinaApiService.getNewIdentity("Android+6.0.1").map { response ->
                 "0" + response.Content.ApiKey
-            }).doOnNext({ token -> prefs.edit().putString("api_token", token).apply() })
+            }.doOnNext { t -> prefs.edit().putString("api_token", t).apply() }
         } else {
-            return Observable.just(token)
+            Observable.just(token)
         }
     }
 
@@ -35,7 +34,7 @@ class MainActivityPresenter @Inject constructor(private var culinaApiService: Cu
 //    }
 
     fun getMenu(prefs: SharedPreferences, date: String): Observable<ApiResponse<ContentMenu>> {
-        return getApiToken(prefs).flatMap({ token -> culinaApiService.getMenu(token, date) })
+        return getApiToken(prefs).flatMap { token -> culinaApiService.getMenu(token, date) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
     }
