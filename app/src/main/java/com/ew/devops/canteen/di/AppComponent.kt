@@ -12,4 +12,5 @@ interface AppComponent {
     fun inject(dayMenuFragment: DayMenuFragment)
     fun inject(categoryActivity: CategoryActivity)
     fun inject(signInActivity: SignInActivity)
+    fun inject(dayMenuPresenter: DayMenuPresenter)
 }

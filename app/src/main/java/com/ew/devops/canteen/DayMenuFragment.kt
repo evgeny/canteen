@@ -1,9 +1,6 @@
 package com.ew.devops.canteen
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
@@ -13,17 +10,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.ew.devops.canteen.di.DayMenuPresenter
 import com.ew.devops.canteen.network.Category
-import com.ew.devops.canteen.presenter.MainActivityPresenter
 import com.ew.devops.canteen.utils.UiUtils
 import kotlinx.android.synthetic.main.fragment_day_menu.*
-import javax.inject.Inject
 
 
 class DayMenuFragment : Fragment() {
 
-    @Inject lateinit var presenter: MainActivityPresenter
+//    @Inject lateinit var presenter: MainActivityPresenter
 
+    lateinit var presenter: DayMenuPresenter
+//    
     companion object Factory {
         fun newInstance(date: String): DayMenuFragment {
             val args = Bundle(1)
@@ -38,8 +36,8 @@ class DayMenuFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         CanteenApplication.appComponent.inject(this)
+        presenter = DayMenuPresenter()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -47,8 +45,10 @@ class DayMenuFragment : Fragment() {
 
         val date: String = arguments!!.getString("date")
 
-        presenter.getMenu(activity!!.getPreferences(Context.MODE_PRIVATE), date).subscribe({ response ->
-            val cats = response.Content.Categories
+        presenter.menuObservable(date)
+//        presenter.getMenu(activity!!.getPreferences(Context.MODE_PRIVATE), date)
+                .subscribe({ response ->
+            val cats = response.Categories
             if (cats != null) {
                 empty_view.visibility = View.GONE
                 parseResponse(cats, day_menu_content, inflater)
@@ -91,12 +91,12 @@ class DayMenuFragment : Fragment() {
             // add card to fragment layout
             container?.addView(menuItem)
 
-            menuItem.setOnClickListener { view ->
-                presenter.category = it
-                val dishActivity = Intent(activity, CategoryActivity::class.java)
-                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity!!, imageView, "test")
-                startActivity(dishActivity, options.toBundle())
-            }
+//            menuItem.setOnClickListener { view ->
+//                presenter.category = it
+//                val dishActivity = Intent(activity, CategoryActivity::class.java)
+//                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity!!, imageView, "test")
+//                startActivity(dishActivity, options.toBundle())
+//            }
         }
     }
 }

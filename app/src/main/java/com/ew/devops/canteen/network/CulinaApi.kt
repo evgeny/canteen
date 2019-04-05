@@ -1,5 +1,6 @@
 package com.ew.devops.canteen.network
 
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -36,7 +37,7 @@ interface CulinaApi {
 
     @Headers("Accept: application/json", "App-Feature-Set: 1793")
     @GET("cons/api/Stores/20924/Menu")
-    fun getMenu(@Header("Authorization") authorization: String, @Query("date") date: String): Observable<ApiResponse<ContentMenu>>
+    fun getMenu(@Header("Authorization") authorization: String, @Query("date") date: String): Maybe<ApiResponse<ContentMenu>>
 
     /**
      * https://api.qnips.com/cons/api/NewIdentity?deviceType=Android+6.0.1
