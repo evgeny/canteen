@@ -9,12 +9,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import kotlinx.android.synthetic.main.activity_sign_in.*
-import javax.inject.Inject
 
 
 class SignInActivity : BaseActivity(), View.OnClickListener {
 
-    @Inject lateinit var mAuth: FirebaseAuth
+    lateinit var mAuth: FirebaseAuth
 
     // [START declare_auth_listener]
     private lateinit var mAuthListener: FirebaseAuth.AuthStateListener
@@ -212,7 +211,7 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun inject() {
-        CanteenApplication.appComponent.inject(this)
+        mAuth = CanteenApplication.appComponent.firebaseAuth
     }
 
     companion object {

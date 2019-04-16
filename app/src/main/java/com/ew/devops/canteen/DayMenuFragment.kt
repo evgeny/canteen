@@ -15,10 +15,10 @@ import com.ew.devops.canteen.network.Category
 import com.ew.devops.canteen.utils.UiUtils
 import kotlinx.android.synthetic.main.fragment_day_menu.*
 
-
+/**
+ * represent a ui tab with menu for one day defined by given date
+ */
 class DayMenuFragment : Fragment() {
-
-//    @Inject lateinit var presenter: MainActivityPresenter
 
     lateinit var presenter: DayMenuPresenter
 //    
@@ -36,8 +36,6 @@ class DayMenuFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        CanteenApplication.appComponent.inject(this)
-        presenter = DayMenuPresenter()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -45,7 +43,8 @@ class DayMenuFragment : Fragment() {
 
         val date: String = arguments!!.getString("date")
 
-        presenter.menuObservable(date)
+        presenter = DayMenuPresenter(date)
+        presenter.menuObservable()
 //        presenter.getMenu(activity!!.getPreferences(Context.MODE_PRIVATE), date)
                 .subscribe({ response ->
             val cats = response.Categories

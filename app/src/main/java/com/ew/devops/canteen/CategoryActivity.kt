@@ -7,7 +7,6 @@ import android.widget.TextView
 import com.ew.devops.canteen.dish.RatingFragment
 import com.ew.devops.canteen.models.Review
 import com.ew.devops.canteen.network.Product
-import com.ew.devops.canteen.presenter.MainActivityPresenter
 import com.ew.devops.canteen.utils.UiUtils
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -17,18 +16,18 @@ import kotlinx.android.synthetic.main.activity_category.*
 import kotlinx.android.synthetic.main.content_category.*
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.inject.Inject
 
 
+/**
+ * Detail view of chosen dish
+ */
 class CategoryActivity : BaseActivity(), RatingFragment.ReviewInterface {
 
     override fun postReview(rating: Float, comment: String, dishId: Int) {
         writeNewReview(dishId.toString(), getUid(), comment, rating)
     }
 
-    @Inject lateinit var presenter: MainActivityPresenter
-
-    @Inject lateinit var dbRef: DatabaseReference
+    lateinit var dbRef: DatabaseReference
 
     private val reviewDateFormatter: SimpleDateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
     private lateinit var product: Product
@@ -40,44 +39,44 @@ class CategoryActivity : BaseActivity(), RatingFragment.ReviewInterface {
 //        val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
-        val categoryColor = UiUtils.getCategoryColor(presenter.category!!.Id)
-        app_bar.setBackgroundResource(categoryColor)
-        toolbar_layout.setContentScrimResource(categoryColor)
-        setStatusBarColor(categoryColor)
-
-        val categoryDrawable = UiUtils.getCategoryDrawable(presenter.category!!.Id)
-        image.setImageResource(categoryDrawable)
-
-        product = presenter.category!!.Products[0]
-        title = presenter.category!!.Name
-        dish.text = product.Name
-
-        showProgressDialog()
-        val dishId = product.Id
-        dbRef.child("reviews").child("$dishId").addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(error: DatabaseError) {
-                Log.w("CategoryActivity", "Failed to read value.", error.toException())
-            }
-
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                hideProgressDialog()
-                // TODO if review was changed it's appear double in review feed
-                var averageRating = 0f
-                var childrenCount = 0
-                dataSnapshot.children.forEach {
-                    val review = it.getValue(Review::class.java)
-                    if (review != null) {
-                        Log.d("CategoryActivity", "Value is: " + review.text)
-                        appendReview(review)
-
-                        averageRating += review.rating
-                        childrenCount++
-                    }
-                }
-
-                rating.rating = averageRating / childrenCount
-            }
-        })
+//        val categoryColor = UiUtils.getCategoryColor(presenter.category!!.Id)
+//        app_bar.setBackgroundResource(categoryColor)
+//        toolbar_layout.setContentScrimResource(categoryColor)
+//        setStatusBarColor(categoryColor)
+//
+//        val categoryDrawable = UiUtils.getCategoryDrawable(presenter.category!!.Id)
+//        image.setImageResource(categoryDrawable)
+//
+//        product = presenter.category!!.Products[0]
+//        title = presenter.category!!.Name
+//        dish.text = product.Name
+//
+//        showProgressDialog()
+//        val dishId = product.Id
+//        dbRef.child("reviews").child("$dishId").addValueEventListener(object : ValueEventListener {
+//            override fun onCancelled(error: DatabaseError) {
+//                Log.w("CategoryActivity", "Failed to read value.", error.toException())
+//            }
+//
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                hideProgressDialog()
+//                // TODO if review was changed it's appear double in review feed
+//                var averageRating = 0f
+//                var childrenCount = 0
+//                dataSnapshot.children.forEach {
+//                    val review = it.getValue(Review::class.java)
+//                    if (review != null) {
+//                        Log.d("CategoryActivity", "Value is: " + review.text)
+//                        appendReview(review)
+//
+//                        averageRating += review.rating
+//                        childrenCount++
+//                    }
+//                }
+//
+//                rating.rating = averageRating / childrenCount
+//            }
+//        })
 
 //        publish.setOnClickListener {
 //            // Write a message to the database
@@ -124,6 +123,6 @@ class CategoryActivity : BaseActivity(), RatingFragment.ReviewInterface {
     }
 
     override fun inject() {
-        CanteenApplication.appComponent.inject(this)
+//        CanteenApplication.appComponent.menu()
     }
 }

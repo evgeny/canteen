@@ -14,31 +14,18 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-// TODO remove this class
-class Test {
-    fun test() {
-
-    }
-
-    fun createContext(application: Application): Context {
-        val localStore = LocalStore.Impl(application.getSharedPreferences("culina_api", 0))
-        val networkModule = NetworkModule2.Impl(application)
-        val culinaModule = CulinaModule.Impl(networkModule)
-        val menuRepository = MenuRepository.Impl(culinaModule, localStore)
-
-        return Context.Impl(menuRepository)
-    }
+interface MenuContext : CulinaService, FirebaseModule {
+    
+    class Impl(culinaService: CulinaService, firebaseModule: FirebaseModule)
+        : MenuContext, CulinaService by culinaService,
+            FirebaseModule by firebaseModule
 }
 
-interface Context : MenuRepository {
-    class Impl(menuRepository: MenuRepository) : Context, MenuRepository by menuRepository
-}
-
-interface MenuRepository {
+interface CulinaService {
     fun menu(date: String): Observable<ApiResponse<ContentMenu>>
 
-    class Impl(culinaModule: CulinaModule, private val localStore: LocalStore) : MenuRepository {
-        val culinaApi by lazy { culinaModule.culinaApi }
+    class Impl(networkModule: NetworkModule, private val localStore: LocalStore) : CulinaService {
+        val culinaApi: CulinaApi by lazy { networkModule.retrofit.create(CulinaApi::class.java) }
 
         override fun menu(date: String): Observable<ApiResponse<ContentMenu>> {
             return getApiToken().flatMapMaybe { token -> culinaApi.getMenu(token, date) }
@@ -57,23 +44,6 @@ interface MenuRepository {
     }
 }
 
-//MODULES
-//interface RepositoryModule {
-//    val repository: IMenuRepository
-//
-//    class Impl : RepositoryModule {
-//        override val repository by lazy { MenuRepositoryImpl() }
-//    }
-//}
-
-interface CulinaModule {
-    val culinaApi: CulinaApi
-
-    class Impl(networkModule: NetworkModule2) : CulinaModule {
-        override val culinaApi: CulinaApi by lazy { networkModule.retrofit.create(CulinaApi::class.java) }
-    }
-}
-
 interface LocalStore {
     var apiKey: String
 
@@ -86,12 +56,12 @@ interface LocalStore {
     }
 }
 
-interface NetworkModule2 {
+interface NetworkModule {
     val cache: Cache
     val retrofit: Retrofit
     val okHttp: OkHttpClient
 
-    class Impl(application: Application) : NetworkModule2 {
+    class Impl(application: Application) : NetworkModule {
         override val cache = Cache(application.cacheDir, 5 * 1024 * 1024L)
         override val okHttp: OkHttpClient = OkHttpClient.Builder()
                 .cache(cache)

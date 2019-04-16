@@ -3,19 +3,13 @@ package com.ew.devops.canteen.di
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import dagger.Module
-import dagger.Provides
 
-@Module
-class FirebaseModule {
+interface FirebaseModule {
+    val firebaseAuth: FirebaseAuth
+    val firebaseDb: DatabaseReference
 
-    @Provides
-    fun provideFirebaseAuth(): FirebaseAuth {
-        return FirebaseAuth.getInstance()
-    }
-
-    @Provides
-    fun provideFirebaseDb(): DatabaseReference {
-        return FirebaseDatabase.getInstance().reference
+    class Impl : FirebaseModule {
+        override val firebaseDb by lazy { FirebaseDatabase.getInstance().reference }
+        override val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     }
 }

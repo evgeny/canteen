@@ -2,9 +2,8 @@ package com.ew.devops.canteen.network
 
 import io.reactivex.Maybe
 import io.reactivex.Observable
-import javax.inject.Inject
 
-class CulinaApiService @Inject constructor(private val culinaApi: CulinaApi) : CulinaApi {
+class CulinaApiService(private val culinaApi: CulinaApi) : CulinaApi {
 
     override fun getMenu(authorization: String): Observable<ApiResponse<ContentMenu>> {
         return culinaApi.getMenu(authorization)
