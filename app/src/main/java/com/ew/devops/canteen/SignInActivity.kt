@@ -211,7 +211,7 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun inject() {
-        mAuth = CanteenApplication.appComponent.firebaseAuth
+        mAuth = CanteenApplication.registry.firebaseModule.firebaseAuth
     }
 
     companion object {

@@ -11,13 +11,11 @@ import io.reactivex.schedulers.Schedulers
  */
 class DayMenuPresenter(private val date: String) {
 
-    private val culinaService: CulinaService by lazy { CanteenApplication.culinaService }
-
     /**
      * TODO provide date via constructor
      */
     fun menuObservable(): Observable<ContentMenu> {
-        return culinaService.menu(date)
+        return CanteenApplication.registry.culinaService.menu(date)
                 .map { response -> response.Content }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
