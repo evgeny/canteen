@@ -33,11 +33,11 @@ interface CulinaApi {
      */
     @Headers("Accept: application/json", "App-Feature-Set: 1793")
     @GET("cons/api/Stores/20924/Menu")
-    fun getMenu(@Header("Authorization") authorization: String): Observable<ApiResponse<ContentMenu>>
+    suspend fun getMenu(@Header("Authorization") authorization: String): ApiResponse<ContentMenu>
 
     @Headers("Accept: application/json", "App-Feature-Set: 1793")
     @GET("cons/api/Stores/20924/Menu")
-    fun getMenu(@Header("Authorization") authorization: String, @Query("date") date: String): Maybe<ApiResponse<ContentMenu>>
+    suspend fun getMenu(@Header("Authorization") authorization: String, @Query("date") date: String): ApiResponse<ContentMenu>
 
     /**
      * https://api.qnips.com/cons/api/NewIdentity?deviceType=Android+6.0.1
@@ -47,7 +47,7 @@ interface CulinaApi {
      */
     @Headers("Accept: application/json", "App-Feature-Set: 1793")
     @GET("cons/api/NewIdentity")
-    fun getNewIdentity(@Query("deviceType") deviceType: String): Observable<ApiResponse<ContentNewIdentity>>
+    suspend fun getNewIdentity(@Query("deviceType") deviceType: String): ApiResponse<ContentNewIdentity>
 
     //https://104.47.143.161/cons/api/v2/Master?since=1457002509060
 //    GET /cons/api/Stores/20943/Menu HTTP/1.1

@@ -15,31 +15,35 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 interface MenuContext : CulinaService, FirebaseModule {
-    
+
     class Impl(culinaService: CulinaService, firebaseModule: FirebaseModule)
         : MenuContext, CulinaService by culinaService,
             FirebaseModule by firebaseModule
 }
 
 interface CulinaService {
-    fun menu(date: String): Observable<ApiResponse<ContentMenu>>
+    suspend fun menu(date: String): ApiResponse<ContentMenu>
 
     class Impl(networkModule: NetworkModule, private val localStore: LocalStore) : CulinaService {
-        val culinaApi: CulinaApi by lazy { networkModule.retrofit.create(CulinaApi::class.java) }
+        private val culinaApi: CulinaApi by lazy { networkModule.retrofit.create(CulinaApi::class.java) }
 
-        override fun menu(date: String): Observable<ApiResponse<ContentMenu>> {
-            return getApiToken().flatMapMaybe { token -> culinaApi.getMenu(token, date) }
+        override suspend fun menu(date: String): ApiResponse<ContentMenu> {
+            val token = getApiToken()
+            return culinaApi.getMenu(token, date)
+//            return getApiToken().flatMapMaybe { token -> culinaApi.getMenu(token, date) }
         }
 
-        private fun getApiToken(): Observable<String> {
+        private suspend fun getApiToken(): String {
             val token = localStore.apiKey
-            return if (token.isEmpty()) {
-                culinaApi.getNewIdentity("Android+6.0.1").map { response ->
-                    "0" + response.Content.ApiKey
-                }.doOnNext { t -> localStore.apiKey = t }
-            } else {
-                Observable.just(token)
+            
+            if (token.isEmpty()) {
+                val newIdentityResponse = culinaApi.getNewIdentity("Android+6.0.1")
+                val newToken = "0" + newIdentityResponse.Content.ApiKey
+                localStore.apiKey = newToken
+                return newToken
             }
+            
+            return token
         }
     }
 }

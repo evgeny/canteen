@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +20,8 @@ import kotlinx.android.synthetic.main.fragment_day_menu.*
 class DayMenuFragment : Fragment() {
 
     lateinit var presenter: DayMenuPresenter
-//    
+
+    //    
     companion object Factory {
         fun newInstance(date: String): DayMenuFragment {
             val args = Bundle(1)
@@ -39,30 +39,24 @@ class DayMenuFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_day_menu, container, false)
-
-        val date: String = arguments!!.getString("date")
-
-        presenter = DayMenuPresenter(date)
-        presenter.menuObservable()
-//        presenter.getMenu(activity!!.getPreferences(Context.MODE_PRIVATE), date)
-                .subscribe({ response ->
-            val cats = response.Categories
-            if (cats != null) {
-                empty_view.visibility = View.GONE
-                parseResponse(cats, day_menu_content, inflater)
-            } else {
-                // TODO
-            }
-        }, { error -> Log.e("TAG", "", error) })
-
-        return view
+        return inflater.inflate(R.layout.fragment_day_menu, container, false)
     }
 
-    private fun parseResponse(categories: List<Category>, container: ViewGroup?, inflater: LayoutInflater?) {
-//        val dbRef = FirebaseDatabase.getInstance().reference
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        categories.forEach {
+        val date: String = arguments!!.getString("date", "")
+
+        presenter = DayMenuPresenter(date)
+        val cats = presenter.menuObservable().Categories
+
+        empty_view.visibility = View.GONE
+        parseResponse(cats, day_menu_content)
+    }
+
+    private fun parseResponse(categories: List<Category>, container: ViewGroup?) {
+        val inflater = LayoutInflater.from(context)
+        categories?.forEach {
             val menuItem = inflater?.inflate(R.layout.card_day_menu_item, container, false) as CardView
 
             val categoryView = menuItem.findViewById<TextView>(R.id.day_menu_category)
@@ -73,7 +67,7 @@ class DayMenuFragment : Fragment() {
 //            val priceView = menuItem.findViewById(R.id.day_menu_price) as TextView
 //            if (it.Products[0].Name.contains("€")) {
 //                priceView.text = it.Products[0].Name
-                productView.text = it.Products[0].Name
+            productView.text = it.Products[0].Name
 //            } else {
 //                priceView.text = it.Products[1].Name
 //                productView.text = it.Products[0].Name
