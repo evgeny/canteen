@@ -3,9 +3,6 @@ package com.ew.devops.canteen.di
 import android.support.annotation.UiThread
 import com.ew.devops.canteen.CanteenApplication
 import com.ew.devops.canteen.network.ContentMenu
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
