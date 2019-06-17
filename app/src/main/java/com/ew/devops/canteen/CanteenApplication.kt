@@ -13,6 +13,6 @@ class CanteenApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         Stetho.initializeWithDefaults(this)
-        DependenciesRegistry.init(this)
+        registry = DependenciesRegistry.init(this)
     }
 }

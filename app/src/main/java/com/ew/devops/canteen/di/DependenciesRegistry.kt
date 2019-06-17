@@ -15,7 +15,8 @@ object DependenciesRegistry {
     /**
      * init registery
      */
-    fun init(application: Application) {
+    fun init(application: Application): DependenciesRegistry {
         appContext = application
+        return this
     }
 }
